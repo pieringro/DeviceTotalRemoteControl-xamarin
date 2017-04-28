@@ -3,9 +3,9 @@ using System.Diagnostics;
 using Firebase.Messaging;
 using Android.App;
 
-using FirstXamarinApp.Services.Commands;
+using DTRC.Services.Commands;
 
-namespace FirstXamarinApp.Services {
+namespace DTRC.Services {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class MyFirebaseMessagingService : FirebaseMessagingService {
