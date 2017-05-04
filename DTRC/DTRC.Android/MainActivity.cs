@@ -9,6 +9,10 @@ using Android.OS;
 using Firebase.Messaging;
 using Firebase.Iid;
 using Android.Util;
+using XLabs.Ioc;
+using XLabs.Platform.Device;
+using XLabs.Platform.Services.Media;
+using DTRC.Droid.Services.Commands;
 
 namespace DTRC.Droid {
     [Activity(Label = "DTRC", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -18,8 +22,14 @@ namespace DTRC.Droid {
         protected override void OnCreate(Bundle bundle) {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(bundle);
+
+            if (!Resolver.IsSet) { 
+                var container = new SimpleContainer();
+                container.Register<IDevice>(t => AndroidDevice.CurrentDevice);
+                container.Register<IMediaPicker, MediaPicker>();
+                Resolver.SetResolver(container.GetResolver());  // Resolving the services 
+            }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
@@ -32,6 +42,11 @@ namespace DTRC.Droid {
             }
 
             this.IsPlayServicesAvailable();
+
+
+            
+
+
         }
 
 

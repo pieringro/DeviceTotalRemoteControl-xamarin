@@ -19,13 +19,18 @@ namespace DTRC.Services.Commands
         }
 
         private CommandDispatcher() {
-            matchingCommands = new Dictionary<string, ACommand>();
             InitCommandsInstances();
         }
 
         private void InitCommandsInstances() {
-            matchingCommands.Add(
-                APlayBeepCommand.Id, DependencyService.Get<APlayBeepCommand>());
+            if (matchingCommands == null || matchingCommands.Count == 0) {
+                matchingCommands = new Dictionary<string, ACommand>();
+
+                matchingCommands.Add(
+                    APlayBeepCommand.Id, DependencyService.Get<APlayBeepCommand>());
+                matchingCommands.Add(
+                    ATakePictureCommand.Id, DependencyService.Get<ATakePictureCommand>());
+            }
         }
 
 
