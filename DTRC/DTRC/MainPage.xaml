@@ -4,13 +4,27 @@
              xmlns:local="clr-namespace:DTRC"
              x:Class="DTRC.MainPage">
 
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <StackLayout>
+    
+	    <Label Text="Welcome to Xamarin Forms!" 
+               VerticalOptions="Center" 
+               HorizontalOptions="Center" />
 
-    <Button Margin="0,10,0,0"
-            x:Name="btnLogToken"
-            Text="Log Token" 
-            TextColor="White"/>
+        <Button WidthRequest="100"
+                HeightRequest="50"
+                Margin="0,10,0,0"
+                x:Name="btnLogToken"
+                Text="Log Token" 
+                TextColor="White"/>
+
+
+        <Button WidthRequest="100"
+                HeightRequest="50"
+                Margin="0,10,0,0"
+                x:Name="btnTryTakePictures"
+                Text="Prova a scattare foto" 
+                TextColor="White"/>
+
+    </StackLayout>
 
 </ContentPage>

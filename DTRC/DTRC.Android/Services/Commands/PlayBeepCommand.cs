@@ -12,12 +12,6 @@ namespace DTRC.Droid.Services.Commands {
     /// Command semplice che riproduce un beep
     /// </summary>
     public class PlayBeepCommand : APlayBeepCommand {
-
-        public new static string Id {
-            get {
-                return "PLAY_BEEP";
-            }
-        }
         
         public PlayBeepCommand() {
             _player = MediaPlayer.Create(global::Android.App.Application.Context, Resource.Raw.wolfs);
