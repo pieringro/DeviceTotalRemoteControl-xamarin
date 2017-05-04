@@ -24,10 +24,12 @@ namespace DTRC.Droid {
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
 
-            var container = new SimpleContainer();
-            container.Register<IDevice>(t => AndroidDevice.CurrentDevice);
-            container.Register<IMediaPicker, MediaPicker>();
-            Resolver.SetResolver(container.GetResolver());  // Resolving the services 
+            if (!Resolver.IsSet) { 
+                var container = new SimpleContainer();
+                container.Register<IDevice>(t => AndroidDevice.CurrentDevice);
+                container.Register<IMediaPicker, MediaPicker>();
+                Resolver.SetResolver(container.GetResolver());  // Resolving the services 
+            }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
@@ -42,7 +44,7 @@ namespace DTRC.Droid {
             this.IsPlayServicesAvailable();
 
 
-            TakePictureCommand tpc = new TakePictureCommand(this);
+            
 
 
         }

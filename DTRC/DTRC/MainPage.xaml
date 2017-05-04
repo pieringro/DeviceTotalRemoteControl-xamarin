@@ -25,6 +25,14 @@
                 Text="Prova a scattare foto" 
                 TextColor="White"/>
 
+        <Button WidthRequest="100"
+                HeightRequest="50"
+                Margin="0,10,0,0"
+                x:Name="btnReadAllPrivateFiles"
+                Text="Read private files" 
+                TextColor="White"/>
+        
+        
     </StackLayout>
 
 </ContentPage>
