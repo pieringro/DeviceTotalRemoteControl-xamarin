@@ -6,57 +6,55 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DTRC.Services.Commands.TakePicture {
-
+    
     public class WriteAndSendPicture {
+
+        public delegate void CallbackOnFinished();
 
         private const string localFolderName = "PicturesPicked";
 
 
-        public WriteAndSendPicture(byte[] picBytes) {
-            this.picBytes = picBytes;
+        public WriteAndSendPicture(MemoryStream imageStream, CallbackOnFinished callback) {
+            this.imageStream = imageStream;
+            this.callbackOnFinished = callback;
         }
 
-        private byte[] picBytes;
-        
+        private MemoryStream imageStream;
+        private CallbackOnFinished callbackOnFinished;
 
-        public async void WriteFileLocally() {
+        public async void WriteFileLocally(string filenameWithoutExt) {
             IFolder localFolder = FileSystem.Current.LocalStorage;
+            IFile localFile = null;
             localFolder = await localFolder.CreateFolderAsync(localFolderName, 
                 CreationCollisionOption.OpenIfExists);
-
-            string filename = "pic";
-            filename = await this.UpdateFilename(filename, localFolder);
-
-            IFile localFile = await localFolder.CreateFileAsync(filename, 
-                CreationCollisionOption.ReplaceExisting);
+            
+            bool fileCreated = false;
+            int counter = 0;
+            while (!fileCreated) {
+                try {
+                    filenameWithoutExt += ".jpg";
+                    localFile = await localFolder.CreateFileAsync(filenameWithoutExt,
+                        CreationCollisionOption.FailIfExists);
+                    fileCreated = true;
+                }
+                catch (Exception e) {
+                    //file exists
+                    counter++;
+                    filenameWithoutExt = StorageUtility.UpdateFilename(filenameWithoutExt, localFolder, counter);
+                }
+            }
 
             using (Stream stream = await localFile.OpenAsync(FileAccess.ReadAndWrite)) {
-                stream.Write(picBytes, 0, picBytes.Length);
+                imageStream.Position = 0;
+                imageStream.CopyTo(stream);
                 stream.Flush();
             }
-            
+
+            //chiamare la callback operazione conclusa
+            callbackOnFinished();
         }
-
-        private async Task<string> UpdateFilename(string filename, IFolder rootFolder) {
-            int counter = 0;
-            string tmpFilename = filename;
-            bool fileExists = await StorageUtility.IsFileExistAsync(filename, rootFolder);
-
-            while (fileExists) {
-                tmpFilename = filename + "_"+counter;
-                fileExists = await StorageUtility.IsFileExistAsync(tmpFilename, rootFolder);
-                counter++;
-            }
-            return tmpFilename;
-        }
-
-
-
-
-
-
-
     }
 }

@@ -8,6 +8,19 @@ using PCLStorage;
 
 namespace DTRC.Utility {
     public static class StorageUtility {
+        
+        public static string UpdateFilename(string filename, IFolder rootFolder, int? counter) {
+            //rimuovo l'estensione nel filename se presente
+            if (filename.Contains(".")) {
+                filename = filename.Substring(0, filename.IndexOf('.'));
+            }
+
+            string filenameExtension = (counter.HasValue ? "_" + counter.Value.ToString() : string.Empty);
+            string tmpFilename = filename + filenameExtension;
+            counter++;
+            return tmpFilename;
+        }
+
 
         public static async Task<bool> IsFileExistAsync(this string folderFileName, IFolder rootFolder = null) {
             // get hold of the file system  

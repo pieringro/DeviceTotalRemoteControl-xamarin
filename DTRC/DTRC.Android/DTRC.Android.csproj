@@ -216,8 +216,11 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Commands\CameraStreaming\CameraStreaming.cs" />
     <Compile Include="Services\Commands\PlayBeepCommand.cs" />
-    <Compile Include="Services\Commands\TakePicture\TakePictureCommand.cs" />
+    <Compile Include="Services\Commands\CameraStreaming\MyCameraPreviewCallback.cs" />
+    <Compile Include="Services\Commands\CameraStreaming\MySurfaceHolderCallback.cs" />
+    <Compile Include="Services\Commands\TakePictureCommand.cs" />
     <Compile Include="Services\MyFirebaseInstanceIdInternalReceiver.cs" />
     <Compile Include="Services\MyFirebaseMessagingService.cs" />
   </ItemGroup>
