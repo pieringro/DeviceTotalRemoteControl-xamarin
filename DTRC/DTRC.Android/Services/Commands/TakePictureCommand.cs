@@ -1,11 +1,6 @@
 ﻿using System;
 
-using Android.App;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Hardware;
-using Android.Content;
+using Android.Util;
 using DTRC.Droid.Services.Commands;
 using DTRC.Services.Commands;
 using DTRC.Droid.Services.Commands.CameraStreaming;
@@ -13,14 +8,13 @@ using DTRC.Droid.Services.Commands.CameraStreaming;
 [assembly: Xamarin.Forms.Dependency(typeof(TakePictureCommand))]
 namespace DTRC.Droid.Services.Commands {
     public class TakePictureCommand : ATakePictureCommand {
-
         private static string TAG = "TakePictureCommand";
 
         private string pictureDefaultFilename = "pic";
-        private CameraStreaming.CameraStreaming cameraStreaming;
+        private CameraStreamingClass cameraStreaming;
 
         public TakePictureCommand() {
-            cameraStreaming = new CameraStreaming.CameraStreaming(pictureDefaultFilename);
+            cameraStreaming = new CameraStreamingClass(pictureDefaultFilename);
         }
 
         public override void SetData() {
@@ -32,17 +26,22 @@ namespace DTRC.Droid.Services.Commands {
         public override bool Execute() {
             bool result = true;
 
-            
-
             result = cameraStreaming.Start(GotchaAFrameFromCamera);
-            
+
+            if (!result) {
+                Log.Error(TAG, "Unable to start CameraStreaming.");
+            }
+
             return result;
         }
 
 
 
         public void GotchaAFrameFromCamera() {
-            cameraStreaming.Stop();
+            bool result = cameraStreaming.Stop();
+            if (!result) {
+                Log.Error(TAG, "Unable to stop CameraStreaming.");
+            }
         }
 
     }

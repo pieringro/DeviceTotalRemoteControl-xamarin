@@ -13,19 +13,19 @@ using Android.Hardware;
 
 namespace DTRC.Droid.Services.Commands.CameraStreaming {
     
-    public class MySurfaceHolderCallback : Java.Lang.Object, ISurfaceHolderCallback {
+    internal class MySurfaceHolderCallback : Java.Lang.Object, ISurfaceHolderCallback {
 
-        public MySurfaceHolderCallback(Camera camera, ISurfaceHolder surfaceHolder,
+        public MySurfaceHolderCallback(ISurfaceHolder surfaceHolder,
             MyCameraPreviewCallback cameraPreviewCallback) {
 
-            this.camera = camera;
             this.surfaceHolder = surfaceHolder;
             this.cameraPreviewCallback = cameraPreviewCallback;
         }
 
-        Camera camera;
         ISurfaceHolder surfaceHolder;
         MyCameraPreviewCallback cameraPreviewCallback;
+
+        public Camera camera { get; private set; }
 
         public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Android.Graphics.Format format, int width, int height) {
 
@@ -45,7 +45,10 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
         }
 
         public void SurfaceDestroyed(ISurfaceHolder holder) {
-
+            camera.StopPreview();
+            camera.SetPreviewCallback(null);
+            camera.Release();
+            camera = null;
         }
 
     }

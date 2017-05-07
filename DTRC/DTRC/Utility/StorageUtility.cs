@@ -8,14 +8,19 @@ using PCLStorage;
 
 namespace DTRC.Utility {
     public static class StorageUtility {
-        
+
+        private static string FILENAME_NUMBER_SEPARATOR = "_";
         public static string UpdateFilename(string filename, IFolder rootFolder, int? counter) {
             //rimuovo l'estensione nel filename se presente
             if (filename.Contains(".")) {
                 filename = filename.Substring(0, filename.IndexOf('.'));
             }
+            //rimuovo il contatore precedente se presente
+            if (filename.Contains(FILENAME_NUMBER_SEPARATOR)) {
+                filename = filename.Substring(0, filename.IndexOf(FILENAME_NUMBER_SEPARATOR));
+            }
 
-            string filenameExtension = (counter.HasValue ? "_" + counter.Value.ToString() : string.Empty);
+            string filenameExtension = (counter.HasValue ? FILENAME_NUMBER_SEPARATOR + counter.Value.ToString() : string.Empty);
             string tmpFilename = filename + filenameExtension;
             counter++;
             return tmpFilename;

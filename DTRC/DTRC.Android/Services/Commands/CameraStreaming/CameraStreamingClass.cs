@@ -6,36 +6,48 @@ using Android.Runtime;
 using Android.Views;
 using Android.Hardware;
 using Android.Content;
+using Android.Util;
 using DTRC.Droid.Services.Commands;
 using DTRC.Services.Commands;
-using DTRC.Droid.Services.Commands.CameraStreaming;
 
 namespace DTRC.Droid.Services.Commands.CameraStreaming {
-    public class CameraStreaming {
+    public class CameraStreamingClass {
+        private static string TAG = "CameraStreamingClass";
 
-        public CameraStreaming(string pictureDefaultFilename) {
+        public CameraStreamingClass(string pictureDefaultFilename) {
             this.PictureDefaultFilename = pictureDefaultFilename;
         }
 
+        public bool IsStopped { get; private set; }
+
         private string PictureDefaultFilename;
 
-        private Camera camera;
+        private IWindowManager windowManager;
         private SurfaceView surfaceView;
         private ISurfaceHolder surfaceHolder;
         private MySurfaceHolderCallback surfaceHolderCallback;
         private MyCameraPreviewCallback cameraPreviewCallback;
 
-        public bool Start(MyCameraPreviewCallback.GotchaAFrame gotchaAFrameFromCamera) {
+        private void GotchaAFrameFromCamera() {
+            GotchaAFrameCallback();
+        }
+
+        public delegate void GotchaAFrame();
+        private GotchaAFrame GotchaAFrameCallback;
+
+        public bool Start(GotchaAFrame gotchaAFrameFromCamera) {
             bool result = true;
+            this.IsStopped = false;
+            this.GotchaAFrameCallback = gotchaAFrameFromCamera;
             try {
                 using (Handler handler = new Handler(Looper.MainLooper)) {
                     handler.Post(() => {
                         cameraPreviewCallback = new MyCameraPreviewCallback(PictureDefaultFilename,
-                            gotchaAFrameFromCamera);
+                            GotchaAFrameFromCamera);
 
                         surfaceView = new SurfaceView(Application.Context);
 
-                        IWindowManager windowManager =
+                        windowManager =
                             Application.Context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>();
                         WindowManagerLayoutParams parameters = new WindowManagerLayoutParams(
                                 1, 1,
@@ -48,7 +60,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                         surfaceView.SetZOrderOnTop(true);
                         surfaceHolder.SetFormat(Android.Graphics.Format.Translucent);
 
-                        surfaceHolderCallback = new MySurfaceHolderCallback(camera, surfaceHolder, cameraPreviewCallback);
+                        surfaceHolderCallback = new MySurfaceHolderCallback(surfaceHolder, cameraPreviewCallback);
                         surfaceHolder.AddCallback(surfaceHolderCallback);
 
                         windowManager.AddView(surfaceView, parameters);
@@ -57,6 +69,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
             }
             catch (Exception e) {
+                Log.Error(TAG, "Error: " + e.StackTrace);
                 result = false;
             }
 
@@ -67,9 +80,17 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
         public bool Stop() {
             bool result = true;
             try {
-                camera.StopPreview();
-                surfaceHolder.Dispose();
+                if (!IsStopped) {
+                    surfaceHolder.Dispose();
+                    windowManager.RemoveView(surfaceView);
+                    surfaceView.Dispose();
+
+                    windowManager.Dispose();
+
+                    IsStopped = true;
+                }
             } catch(Exception e) {
+                Log.Error(TAG, "Error: "+e.StackTrace);
                 result = false;
             }
             return result;
@@ -77,4 +98,5 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
 
     }
+
 }

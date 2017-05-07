@@ -6,14 +6,14 @@ using DTRC.Services.Commands.TakePicture;
 
 namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
-    public class MyCameraPreviewCallback : Java.Lang.Object, Camera.IPreviewCallback {
+    internal class MyCameraPreviewCallback : Java.Lang.Object, Camera.IPreviewCallback {
         private bool myLock = false;
         private static string TAG = "MyCameraPreviewCallback";
 
         public delegate void GotchaAFrame();
+        private GotchaAFrame GotchaAFrameCallback;
 
         private string filenameBase;
-        private GotchaAFrame GotchaAFrameCallback;
         
 
         public MyCameraPreviewCallback(string filenameBase, GotchaAFrame gotchaAFrameCallback = null) {
@@ -40,9 +40,9 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
                     WriteAndSendPicture wsp = new WriteAndSendPicture(imageStreamToSave,
                         () => {
-                            myLock = false;
                             //frame della camera scritto
                             GotchaAFrameCallback();
+                            myLock = false;
                         });
                     wsp.WriteFileLocally(filenameBase);
                 }
