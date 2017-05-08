@@ -41,6 +41,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                     WriteAndSendPicture wsp = new WriteAndSendPicture(imageStreamToSave,
                         () => {
                             //frame della camera scritto
+                            //TODO controllo che non sia null
                             GotchaAFrameCallback();
                             myLock = false;
                         });
