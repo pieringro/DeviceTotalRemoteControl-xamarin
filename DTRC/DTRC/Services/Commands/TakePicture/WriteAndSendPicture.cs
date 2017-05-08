@@ -17,15 +17,14 @@ namespace DTRC.Services.Commands.TakePicture {
         private const string localFolderName = "PicturesPicked";
 
 
-        public WriteAndSendPicture(MemoryStream imageStream, CallbackOnFinished callback) {
-            this.imageStream = imageStream;
-            this.callbackOnFinished = callback;
+        public WriteAndSendPicture() {
+
         }
 
-        private MemoryStream imageStream;
-        private CallbackOnFinished callbackOnFinished;
 
-        public async void WriteFileLocally(string filenameWithoutExt) {
+        public async void WriteFileLocally(MemoryStream imageStream, string filenameWithoutExt, 
+            CallbackOnFinished callbackOnFinished) {
+
             IFolder localFolder = FileSystem.Current.LocalStorage;
             IFile localFile = null;
             localFolder = await localFolder.CreateFolderAsync(localFolderName, 

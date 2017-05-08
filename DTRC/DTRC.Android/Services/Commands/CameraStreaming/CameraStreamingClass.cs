@@ -28,11 +28,11 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
         private MySurfaceHolderCallback surfaceHolderCallback;
         private MyCameraPreviewCallback cameraPreviewCallback;
 
-        private void GotchaAFrameFromCamera() {
-            GotchaAFrameCallback();
+        private void GotchaAFrameFromCamera(System.IO.MemoryStream imageStreamToSave) {
+            GotchaAFrameCallback(imageStreamToSave);
         }
 
-        public delegate void GotchaAFrame();
+        public delegate void GotchaAFrame(System.IO.MemoryStream imageStreamToSave);
         private GotchaAFrame GotchaAFrameCallback;
 
         public bool Start(CameraFacing cameraId, GotchaAFrame gotchaAFrameFromCamera) {
@@ -67,7 +67,6 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                         windowManager.AddView(surfaceView, parameters);
                     });
                 }
-
             }
             catch (Exception e) {
                 Log.Error(TAG, "Error: " + e.StackTrace);
