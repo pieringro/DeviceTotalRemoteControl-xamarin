@@ -88,6 +88,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                     windowManager.Dispose();
 
                     IsStopped = true;
+                    cameraPreviewCallback.GotchaAFrameCallback = null;
                 }
             } catch(Exception e) {
                 Log.Error(TAG, "Error: "+e.StackTrace);
