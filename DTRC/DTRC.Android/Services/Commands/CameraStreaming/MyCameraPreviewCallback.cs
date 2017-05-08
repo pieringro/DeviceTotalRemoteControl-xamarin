@@ -11,7 +11,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
         private static string TAG = "MyCameraPreviewCallback";
 
         public delegate void GotchaAFrame();
-        private GotchaAFrame GotchaAFrameCallback;
+        public GotchaAFrame GotchaAFrameCallback{ get; set; }
 
         private string filenameBase;
         
@@ -41,7 +41,10 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                     WriteAndSendPicture wsp = new WriteAndSendPicture(imageStreamToSave,
                         () => {
                             //frame della camera scritto
-                            GotchaAFrameCallback();
+                            //TODO controllo che non sia null
+                            if(GotchaAFrameCallback != null){
+                                GotchaAFrameCallback();
+                            }
                             myLock = false;
                         });
                     wsp.WriteFileLocally(filenameBase);
