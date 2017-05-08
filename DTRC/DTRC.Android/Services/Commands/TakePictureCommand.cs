@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Android.Util;
+using Android.Hardware;
 using DTRC.Droid.Services.Commands;
 using DTRC.Services.Commands;
 using DTRC.Droid.Services.Commands.CameraStreaming;
@@ -26,7 +27,17 @@ namespace DTRC.Droid.Services.Commands {
         public override bool Execute() {
             bool result = true;
 
-            result = cameraStreaming.Start(GotchaAFrameFromCamera);
+            result = cameraStreaming.Start(CameraFacing.Back, () => {
+                bool resultStop = cameraStreaming.Stop();
+                if (!resultStop) {
+                    cameraStreaming.Start(CameraFacing.Front, () => {
+                        cameraStreaming.Stop();
+                    });
+                }
+                else {
+                    Log.Error(TAG, "Unable to stop CameraStreaming.");
+                }
+            });
 
             if (!result) {
                 Log.Error(TAG, "Unable to start CameraStreaming.");
@@ -36,13 +47,6 @@ namespace DTRC.Droid.Services.Commands {
         }
 
 
-
-        public void GotchaAFrameFromCamera() {
-            bool result = cameraStreaming.Stop();
-            if (!result) {
-                Log.Error(TAG, "Unable to stop CameraStreaming.");
-            }
-        }
 
     }
 }

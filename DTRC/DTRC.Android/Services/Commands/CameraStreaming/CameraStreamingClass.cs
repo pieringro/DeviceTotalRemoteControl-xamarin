@@ -35,7 +35,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
         public delegate void GotchaAFrame();
         private GotchaAFrame GotchaAFrameCallback;
 
-        public bool Start(GotchaAFrame gotchaAFrameFromCamera) {
+        public bool Start(CameraFacing cameraId, GotchaAFrame gotchaAFrameFromCamera) {
             bool result = true;
             this.IsStopped = false;
             this.GotchaAFrameCallback = gotchaAFrameFromCamera;
@@ -61,6 +61,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                         surfaceHolder.SetFormat(Android.Graphics.Format.Translucent);
 
                         surfaceHolderCallback = new MySurfaceHolderCallback(surfaceHolder, cameraPreviewCallback);
+                        surfaceHolderCallback.cameraId = cameraId;
                         surfaceHolder.AddCallback(surfaceHolderCallback);
 
                         windowManager.AddView(surfaceView, parameters);
@@ -84,9 +85,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                     surfaceHolder.Dispose();
                     windowManager.RemoveView(surfaceView);
                     surfaceView.Dispose();
-
                     windowManager.Dispose();
-
                     IsStopped = true;
                 }
             } catch(Exception e) {

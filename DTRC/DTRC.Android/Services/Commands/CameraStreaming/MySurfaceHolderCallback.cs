@@ -27,6 +27,8 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
         public Camera camera { get; private set; }
 
+        public CameraFacing cameraId { get; set; }
+
         public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Android.Graphics.Format format, int width, int height) {
 
         }
@@ -36,7 +38,8 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                 camera.Release();
                 camera = null;
             }
-            camera = Camera.Open(0);
+
+            camera = Camera.Open((int)cameraId);
 
             camera.SetPreviewDisplay(surfaceHolder);
 
