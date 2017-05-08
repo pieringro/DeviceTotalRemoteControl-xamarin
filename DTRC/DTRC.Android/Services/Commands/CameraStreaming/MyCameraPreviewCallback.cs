@@ -11,7 +11,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
         private static string TAG = "MyCameraPreviewCallback";
 
         public delegate void GotchaAFrame();
-        private GotchaAFrame GotchaAFrameCallback;
+        public GotchaAFrame GotchaAFrameCallback{ get; set; }
 
         private string filenameBase;
         
