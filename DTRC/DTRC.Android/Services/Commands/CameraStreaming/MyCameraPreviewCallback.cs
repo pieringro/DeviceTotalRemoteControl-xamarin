@@ -42,7 +42,9 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
                         () => {
                             //frame della camera scritto
                             //TODO controllo che non sia null
-                            GotchaAFrameCallback();
+                            if(GotchaAFrameCallback != null){
+                                GotchaAFrameCallback();
+                            }
                             myLock = false;
                         });
                     wsp.WriteFileLocally(filenameBase);
