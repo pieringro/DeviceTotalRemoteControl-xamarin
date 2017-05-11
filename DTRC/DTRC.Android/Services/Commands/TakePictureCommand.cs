@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 using Android.Util;
 using Android.Hardware;
@@ -10,12 +11,17 @@ using DTRC.Services.Commands.TakePicture;
 [assembly: Xamarin.Forms.Dependency(typeof(TakePictureCommand))]
 namespace DTRC.Droid.Services.Commands {
     public class TakePictureCommand : ATakePictureCommand {
-        private static string TAG = "TakePictureCommand";
+        private static readonly string TAG = "TakePictureCommand";
+        private const string pictureDefaultFilename = "pic";
 
-        private string pictureDefaultFilename = "pic";
         private CameraStreamingClass cameraStreaming;
-
         private WriteAndSendPicture wsp;
+
+        private int frontPicDoneCounter = 0;//contatore pic front
+        private int backPicDoneCounter = 0;//contatore pic back
+
+        private int frontAllPicToDo = 0;//pic front da fare
+        private int backAllPicToDo = 0;//pic back da fare
 
         public TakePictureCommand() {
             cameraStreaming = new CameraStreamingClass(pictureDefaultFilename);
@@ -27,32 +33,15 @@ namespace DTRC.Droid.Services.Commands {
         }
 
         
-
         public override bool Execute() {
             bool result = true;
 
-            result = cameraStreaming.Start(CameraFacing.Back, 
-                (imageStreamToSaveBack) => {
-                    bool resultStop = cameraStreaming.Stop();
-                    if (resultStop) {
-
-                        wsp.WriteFileLocally(imageStreamToSaveBack, pictureDefaultFilename+"BACK",
-                        () => {
-                            cameraStreaming.Start(CameraFacing.Front, (imageStreamToSaveFront) => {
-                                resultStop = cameraStreaming.Stop();
-                                if (resultStop) {
-                                    wsp.WriteFileLocally(imageStreamToSaveFront, pictureDefaultFilename + "FRONT",
-                                    () => {
-
-                                    });
-                                }
-                            });
-                        });
-                    }
-                    else {
-                        Log.Error(TAG, "Unable to stop CameraStreaming.");
-                    }
-                });
+            if(backPicDoneCounter < backAllPicToDo) {
+                result = TakeBackPic();
+            }
+            else if(frontPicDoneCounter < frontAllPicToDo){
+                result = TakeFrontPic();
+            }
 
             if (!result) {
                 Log.Error(TAG, "Unable to start CameraStreaming.");
@@ -60,17 +49,46 @@ namespace DTRC.Droid.Services.Commands {
 
             return result;
         }
+        
 
-
-        private void SaveImage(System.IO.MemoryStream imageStreamToSave, string filenameBase) {
-            
-            wsp.WriteFileLocally(imageStreamToSave, filenameBase, 
-                () => {
-                    //file salvato
-
-                });
+        private bool TakeBackPic() {
+            bool result = cameraStreaming.Start(CameraFacing.Back, CallbackBackPic);
+            return result;
         }
 
+
+        private void CallbackBackPic(MemoryStream imageStreamToSaveBack) {
+            bool resultStop = cameraStreaming.Stop();
+            if (resultStop) {
+                wsp.WriteFileLocally(imageStreamToSaveBack, pictureDefaultFilename + "BACK",
+                () => {
+                    backPicDoneCounter++;
+                    if(frontPicDoneCounter < frontAllPicToDo) {
+                        TakeFrontPic();
+                    }
+                });
+            }
+            else {
+                Log.Error(TAG, "Unable to stop CameraStreaming.");
+            }
+        }
+
+
+        private bool TakeFrontPic() {
+            bool result = cameraStreaming.Start(CameraFacing.Front, CallbackFrontPic);
+            return result;
+        }
+
+        
+        private void CallbackFrontPic(MemoryStream imageStreamToSaveFront) {
+            bool resultStop = cameraStreaming.Stop();
+            if (resultStop) {
+                wsp.WriteFileLocally(imageStreamToSaveFront, pictureDefaultFilename + "FRONT",
+                () => {
+                    frontPicDoneCounter++;
+                });
+            }
+        }
 
     }
 }
