@@ -28,8 +28,9 @@ namespace DTRC.Droid.Services.Commands {
             wsp = new WriteAndSendPicture();
         }
 
-        public override void SetData() {
-            
+        public override void SetData(CommandParameter commandParams) {
+            frontAllPicToDo = int.Parse(commandParams.dict[FRONT_PIC_ID]);
+            backAllPicToDo = int.Parse(commandParams.dict[BACK_PIC_ID]);
         }
 
         

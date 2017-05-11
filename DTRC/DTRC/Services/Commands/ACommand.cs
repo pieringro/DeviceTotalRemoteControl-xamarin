@@ -12,7 +12,7 @@ namespace DTRC.Services.Commands
             }
         }
 
-        public abstract void SetData();
+        public abstract void SetData(CommandParameter commandParams);
         public abstract bool Execute();
 
     }

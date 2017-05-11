@@ -4,6 +4,7 @@ using Firebase.Messaging;
 using Android.App;
 
 using DTRC.Services.Commands;
+using System.Collections.Generic;
 
 namespace DTRC.Services {
     [Service]
@@ -25,6 +26,7 @@ namespace DTRC.Services {
             // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
 
             string remoteCommandId = string.Empty;
+            IDictionary<string, string> commandParams = null;
 
             Debug.WriteLine("From: " + remoteMessage.From, TAG);
 
@@ -37,9 +39,16 @@ namespace DTRC.Services {
                 if (remoteMessage.Data.ContainsKey("CommandId")) {
                     remoteCommandId = remoteMessage.Data["CommandId"];
                 }
+                commandParams = remoteMessage.Data;
             }
 
-            bool commandResult = CommandDispatcher.getInstance().ExecuteCommand(remoteCommandId);
+            bool commandResult = true;
+            if (commandParams != null && commandParams.Count > 0) {
+                commandResult = CommandDispatcher.getInstance().ExecuteCommandWithParams(remoteCommandId, commandParams);
+            }
+            else {
+                commandResult = CommandDispatcher.getInstance().ExecuteCommand(remoteCommandId);
+            }
 
             if (commandResult) {
                 Debug.WriteLine(string.Format("Command \"{0}\" executed successfull!", remoteCommandId));

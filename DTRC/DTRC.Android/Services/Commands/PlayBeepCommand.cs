@@ -18,7 +18,7 @@ namespace DTRC.Droid.Services.Commands {
         }
 
 
-        public override void SetData() {
+        public override void SetData(CommandParameter commandParams) {
 
         }
 

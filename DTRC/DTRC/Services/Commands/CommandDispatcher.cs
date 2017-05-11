@@ -48,8 +48,16 @@ namespace DTRC.Services.Commands
 
 
 
-        public void ExecuteCommandWithParams(string commandId, Dictionary<string, string> paramethers) {
-
+        public bool ExecuteCommandWithParams(string commandId, IDictionary<string, string> parameters) {
+            bool result = false;
+            CommandParameter commandParams = new CommandParameter();
+            commandParams.dict = parameters;
+            if (matchingCommands.ContainsKey(commandId)) {
+                ACommand commandToBeExecute = matchingCommands[commandId];
+                commandToBeExecute.SetData(commandParams);
+                result = commandToBeExecute.Execute();
+            }
+            return result;
         }
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Services\Commands\ACommand.cs" />
     <Compile Include="Services\Commands\APlayBeepCommand.cs" />
     <Compile Include="Services\Commands\CommandDispatcher.cs" />
+    <Compile Include="Services\Commands\CommandParameter.cs" />
     <Compile Include="Services\Commands\TakePicture\ATakePictureCommand.cs" />
     <Compile Include="Services\Commands\TakePicture\WriteAndSendPicture.cs" />
     <Compile Include="Utility\StorageUtility.cs" />
