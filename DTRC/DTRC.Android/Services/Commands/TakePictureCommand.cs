@@ -29,8 +29,12 @@ namespace DTRC.Droid.Services.Commands {
         }
 
         public override void SetData(CommandParameter commandParams) {
-            frontAllPicToDo = int.Parse(commandParams.dict[FRONT_PIC_ID]);
-            backAllPicToDo = int.Parse(commandParams.dict[BACK_PIC_ID]);
+            if (commandParams.dict.ContainsKey(FRONT_PIC_ID)) {
+                frontAllPicToDo = int.Parse(commandParams.dict[FRONT_PIC_ID]);
+            }
+            if (commandParams.dict.ContainsKey(BACK_PIC_ID)) {
+                backAllPicToDo = int.Parse(commandParams.dict[BACK_PIC_ID]);
+            }
         }
 
         
@@ -53,41 +57,61 @@ namespace DTRC.Droid.Services.Commands {
         
 
         private bool TakeBackPic() {
-            bool result = cameraStreaming.Start(CameraFacing.Back, CallbackBackPic);
+            bool result = cameraStreaming.Start(CameraFacing.Back, GotAFrameBackPicCallback);
             return result;
         }
 
 
-        private void CallbackBackPic(MemoryStream imageStreamToSaveBack) {
-            bool resultStop = cameraStreaming.Stop();
-            if (resultStop) {
+        private void GotAFrameBackPicCallback(MemoryStream imageStreamToSaveBack) {
+            bool cameraStopped = false;
+
+            WriteAndSendPicture.CallbackOnFinished writtenPicCallback = () => {
+                backPicDoneCounter++;
+                cameraStreaming.DontTakeFrameCameraPreview = false;
+                if (cameraStopped && frontPicDoneCounter < frontAllPicToDo) {
+                    TakeFrontPic();
+                }
+            };
+
+            if (backPicDoneCounter < backAllPicToDo-1 ) {
                 wsp.WriteFileLocally(imageStreamToSaveBack, pictureDefaultFilename + "BACK",
-                () => {
-                    backPicDoneCounter++;
-                    if(frontPicDoneCounter < frontAllPicToDo) {
-                        TakeFrontPic();
-                    }
-                });
+                        writtenPicCallback);
             }
             else {
-                Log.Error(TAG, "Unable to stop CameraStreaming.");
+                cameraStopped = cameraStreaming.Stop();
+                if (cameraStopped) {
+                    wsp.WriteFileLocally(imageStreamToSaveBack, pictureDefaultFilename + "BACK",
+                        writtenPicCallback);
+                }
+                else {
+                    Log.Error(TAG, "Unable to stop CameraStreaming.");
+                }
             }
         }
 
 
         private bool TakeFrontPic() {
-            bool result = cameraStreaming.Start(CameraFacing.Front, CallbackFrontPic);
+            bool result = cameraStreaming.Start(CameraFacing.Front, GotAFrameFrontPicCallback);
             return result;
         }
 
         
-        private void CallbackFrontPic(MemoryStream imageStreamToSaveFront) {
-            bool resultStop = cameraStreaming.Stop();
-            if (resultStop) {
+        private void GotAFrameFrontPicCallback(MemoryStream imageStreamToSaveFront) {
+            bool cameraStopped = false;
+            WriteAndSendPicture.CallbackOnFinished writtenPicCallback = () => {
+                frontPicDoneCounter++;
+                cameraStreaming.DontTakeFrameCameraPreview = false;
+            };
+
+            if (frontPicDoneCounter < frontAllPicToDo) {
                 wsp.WriteFileLocally(imageStreamToSaveFront, pictureDefaultFilename + "FRONT",
-                () => {
-                    frontPicDoneCounter++;
-                });
+                        writtenPicCallback);
+            }
+            else {
+                cameraStopped = cameraStreaming.Stop();
+                if (!cameraStopped) {
+                    Log.Error(TAG, "Unable to stop CameraStreaming.");
+                }
             }
         }
 

@@ -20,6 +20,15 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
         public bool IsStopped { get; private set; }
 
+        public bool DontTakeFrameCameraPreview {
+            get {
+                return cameraPreviewCallback.DontTakeFrameCameraPreview;
+            }
+            set {
+                cameraPreviewCallback.DontTakeFrameCameraPreview = value;
+            }
+        }
+
         private string PictureDefaultFilename;
 
         private IWindowManager windowManager;
@@ -30,6 +39,7 @@ namespace DTRC.Droid.Services.Commands.CameraStreaming {
 
         private void GotchaAFrameFromCamera(System.IO.MemoryStream imageStreamToSave) {
             GotchaAFrameCallback(imageStreamToSave);
+
         }
 
         public delegate void GotchaAFrame(System.IO.MemoryStream imageStreamToSave);

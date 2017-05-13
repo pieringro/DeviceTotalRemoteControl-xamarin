@@ -23,10 +23,16 @@ namespace DTRC {
             Debug.WriteLine(firebaseInstanceId.Token);
         }
 
-        public async void btnTryTakePicture_Clicked(object sender, EventArgs e) {
-            //ATakePictureCommand takePictureCmd = DependencyService.Get<ATakePictureCommand>();
-            //await takePictureCmd.TakePicture();
-            CommandDispatcher.getInstance().ExecuteCommand("TAKE_PICTURE");
+        public void btnTryTakePicture_Clicked(object sender, EventArgs e) {
+            //CommandDispatcher.getInstance().ExecuteCommand("TAKE_PICTURE");
+
+            Dictionary<string, string> commandParams = new Dictionary<string, string> {
+                { "CommandId", "TAKE_PICTURE" },
+                { "FrontPic" , "3" },
+                { "BackPic" , "1" }
+            };
+
+            CommandDispatcher.getInstance().ExecuteCommandWithParams("TAKE_PICTURE", commandParams);
         }
 
         public async void btnReadAllPrivateFiles_Clicked(object sender, EventArgs e) {
