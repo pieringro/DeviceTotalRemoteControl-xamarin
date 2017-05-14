@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using PCLStorage;
+using System.IO;
 
 namespace DTRC.Utility {
     public static class StorageUtility {
@@ -37,6 +38,15 @@ namespace DTRC.Utility {
             }
             return false;
         }
+
+        public static byte[] ConvertStreamInBytesArray(Stream sourceStream) {
+            using (var memoryStream = new MemoryStream()) {
+                sourceStream.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+
+
 
     }
 }

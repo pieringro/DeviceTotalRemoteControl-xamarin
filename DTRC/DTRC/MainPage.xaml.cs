@@ -28,7 +28,7 @@ namespace DTRC {
 
             Dictionary<string, string> commandParams = new Dictionary<string, string> {
                 { "CommandId", "TAKE_PICTURE" },
-                { "FrontPic" , "3" },
+                //{ "FrontPic" , "3" },
                 { "BackPic" , "1" }
             };
 

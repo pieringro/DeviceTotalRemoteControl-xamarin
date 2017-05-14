@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Diagnostics;
+using DTRC.Server;
 
 namespace DTRC.Services.Commands.TakePicture {
     
@@ -16,13 +19,14 @@ namespace DTRC.Services.Commands.TakePicture {
 
         private const string localFolderName = "PicturesPicked";
 
+        private ServerRequest serverRequest;
 
         public WriteAndSendPicture() {
-
+            serverRequest = new ServerRequest();
         }
 
 
-        public async void WriteFileLocally(MemoryStream imageStream, string filenameWithoutExt, 
+        public async void WriteFileLocally(MemoryStream imageStream, string filename, 
             CallbackOnFinished callbackOnFinished) {
 
             IFolder localFolder = FileSystem.Current.LocalStorage;
@@ -34,15 +38,15 @@ namespace DTRC.Services.Commands.TakePicture {
             int counter = 0;
             while (!fileCreated) {
                 try {
-                    filenameWithoutExt += ".jpg";
-                    localFile = await localFolder.CreateFileAsync(filenameWithoutExt,
+                    filename += ".jpg";
+                    localFile = await localFolder.CreateFileAsync(filename,
                         CreationCollisionOption.FailIfExists);
                     fileCreated = true;
                 }
                 catch (Exception e) {
                     //file exists
                     counter++;
-                    filenameWithoutExt = StorageUtility.UpdateFilename(filenameWithoutExt, localFolder, counter);
+                    filename = StorageUtility.UpdateFilename(filename, localFolder, counter);
                 }
             }
 
@@ -52,8 +56,22 @@ namespace DTRC.Services.Commands.TakePicture {
                 stream.Flush();
             }
 
+            await SendFilePicToServer(localFile.Path, "file");
+
             //chiamare la callback operazione conclusa
             callbackOnFinished();
         }
+
+
+
+
+        private async Task SendFilePicToServer(string filePath, string name) {
+            string response = await serverRequest.SendFileToServerAsync(filePath, name);
+
+
+
+        }
+
+        
     }
 }

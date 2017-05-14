@@ -1,0 +1,85 @@
+﻿using DTRC.Utility;
+using Newtonsoft.Json;
+using PCLStorage;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DTRC.Server {
+
+    /// <summary>
+    /// {
+    ///     "Device_tokenFirebase" : "<token_firebase_del_dispositivo>",
+    ///     "Device_id" : "<id_del_dispositivo>"
+    /// }
+    /// </summary>
+    public class Request {
+        public string Device_tokenFirebase;
+        public string Device_id;
+    }
+
+    public class ServerRequest {
+
+        public ServerRequest() {
+            httpClient = new HttpClient();
+        }
+
+        private Request request;
+        private string JsonRequest;
+        private HttpClient httpClient;
+
+        private void ConvertRequestToJson(Request request) {
+            JsonRequest = JsonConvert.SerializeObject(request);
+        }
+
+        public delegate void CallbackOnFinished(string serverResponse);
+
+        public async Task<string> SendFileToServerAsync(string filePath, string name,
+            Request request, CallbackOnFinished callbackOnFinish = null) {
+
+            this.ConvertRequestToJson(request);
+            MultipartFormDataContent form = new MultipartFormDataContent();
+
+            IFile fileToSend = await FileSystem.Current.GetFileFromPathAsync(filePath);
+            Stream fileToSendStream = await fileToSend.OpenAsync(FileAccess.Read);
+            byte[] fileToSendBytesArray = StorageUtility.ConvertStreamInBytesArray(fileToSendStream);
+
+            form.Add(new StringContent(JsonRequest), "data");
+            form.Add(new ByteArrayContent(fileToSendBytesArray, 0, fileToSendBytesArray.Length),
+                name, filePath);
+            HttpResponseMessage response = await httpClient.PostAsync(ServerConfig.SERVER_URL_SEND_PIC, form);
+
+            response.EnsureSuccessStatusCode();
+            httpClient.Dispose();
+            string serverResponse = response.Content.ReadAsStringAsync().Result;
+
+            Debug.WriteLine("Server response = " + serverResponse);
+
+            callbackOnFinish?.Invoke(serverResponse);
+
+            return serverResponse;
+        }
+
+
+        public async Task<string> SendDataToServerAsync(Request request, CallbackOnFinished callbackOnFinish = null) {
+            HttpClient client = new HttpClient();
+            List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>> {
+                new KeyValuePair<string, string>("data", JsonRequest)
+            };
+            FormUrlEncodedContent content = new FormUrlEncodedContent(pairs);
+            HttpResponseMessage response = await client.PostAsync(ServerConfig.SERVER_URL_SEND_JSON_DATA, content);
+            response.EnsureSuccessStatusCode();
+            string serverResponse = response.Content.ReadAsStringAsync().Result;
+
+            callbackOnFinish?.Invoke(serverResponse);
+            return serverResponse;
+        }
+
+    }
+}

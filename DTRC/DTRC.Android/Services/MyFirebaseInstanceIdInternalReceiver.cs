@@ -7,7 +7,7 @@ namespace DTRC.Services
     [Service]
     [IntentFilter(new[] { "com.google.firebase.INSTANCE_ID_EVENT" })]
     public class MyFirebaseInstanceIdInternalReceiver : FirebaseInstanceIdService {
-        const string TAG = "MyFirebaseInstanceIdInternalReceiver";
+        private const string TAG = "MyFirebaseInstanceIdInternalReceiver";
 
         public MyFirebaseInstanceIdInternalReceiver() : base(){
             Debug.WriteLine("Constructor", TAG);

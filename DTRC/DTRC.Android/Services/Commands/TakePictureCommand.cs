@@ -40,6 +40,8 @@ namespace DTRC.Droid.Services.Commands {
         
         public override bool Execute() {
             bool result = true;
+            frontPicDoneCounter = 0;
+            backPicDoneCounter = 0;
 
             if(backPicDoneCounter < backAllPicToDo) {
                 result = TakeBackPic();
