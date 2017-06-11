@@ -61,15 +61,31 @@ namespace DTRC.Services.Commands.TakePicture {
             //chiamare la callback operazione conclusa
             callbackOnFinished();
         }
-
-
-
+        
 
         private async Task SendFilePicToServer(string filePath, string name) {
-            string response = await serverRequest.SendFileToServerAsync(filePath, name);
+            try {
+                RequestBuilder requestBuilder = new RequestBuilder();
+                Request request = requestBuilder
+                    .SetDevice_id("device_id")
+                    .SetDevice_tokenFirebase("device_tokenFirebase")
+                    .Build();
 
-
-
+                string responseString = await serverRequest.SendFileToServerAsync(filePath, name, request);
+                Response response = ServerResponse.ParsingJsonResponse(responseString);
+                if (!response.Error) {
+                    Debug.WriteLine(string.Format("File {0} inviato con successo"));
+                }
+                else {
+                    Debug.WriteLine(
+                        string.Format("Il server ha restituito un errore durante l'invio del file {0}. Messaggio : {1}",
+                            name, response.Message));
+                }
+            }
+            catch (Exception e) {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(string.Format("Non e' stato possibile l'invio del file {0}.", name));
+            }
         }
 
         

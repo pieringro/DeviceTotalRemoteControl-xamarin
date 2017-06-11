@@ -20,9 +20,57 @@ namespace DTRC.Server {
     /// }
     /// </summary>
     public class Request {
-        public string Device_tokenFirebase;
-        public string Device_id;
+        public string device_tokenFirebase;
+        public string device_id;
+
+        public string emailUser;
+        public string passUser;
     }
+
+    #region Request Builder
+    public class RequestBuilder {
+
+        private Request request;
+
+        private void InitRequest() {
+            if(request == null) {
+                request = new Request();
+            }
+        }
+
+        public RequestBuilder SetDevice_tokenFirebase(string device_tokenFirebase) {
+            this.InitRequest();
+            request.device_tokenFirebase = device_tokenFirebase;
+            return this;
+        }
+
+        public RequestBuilder SetDevice_id(string device_id) {
+            this.InitRequest();
+            request.device_id = device_id;
+            return this;
+        }
+
+        public RequestBuilder SetEmailUser(string emailUser) {
+            this.InitRequest();
+            request.emailUser = emailUser;
+            return this;
+        }
+
+        public RequestBuilder SetPassUser(string passUser) {
+            this.InitRequest();
+            request.passUser = passUser;
+            return this;
+        }
+
+        public Request Build() {
+            return request;
+        }
+    }
+    #endregion
+
+
+
+
 
     public class ServerRequest {
 
@@ -35,7 +83,9 @@ namespace DTRC.Server {
         private HttpClient httpClient;
 
         private void ConvertRequestToJson(Request request) {
-            JsonRequest = JsonConvert.SerializeObject(request);
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            JsonRequest = JsonConvert.SerializeObject(request, settings);
         }
 
         public delegate void CallbackOnFinished(string serverResponse);
@@ -67,18 +117,26 @@ namespace DTRC.Server {
         }
 
 
-        public async Task<string> SendDataToServerAsync(Request request, CallbackOnFinished callbackOnFinish = null) {
-            HttpClient client = new HttpClient();
+        public async Task<string> SendDataToServerAsync(string url, 
+            Request request, CallbackOnFinished callbackOnFinish = null) {
+
+            this.ConvertRequestToJson(request);
             List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>> {
                 new KeyValuePair<string, string>("data", JsonRequest)
             };
             FormUrlEncodedContent content = new FormUrlEncodedContent(pairs);
-            HttpResponseMessage response = await client.PostAsync(ServerConfig.SERVER_URL_SEND_JSON_DATA, content);
+            HttpResponseMessage response = await httpClient.PostAsync(url, content);
             response.EnsureSuccessStatusCode();
             string serverResponse = response.Content.ReadAsStringAsync().Result;
 
+            Debug.WriteLine("Server response = " + serverResponse);
+
             callbackOnFinish?.Invoke(serverResponse);
             return serverResponse;
+        }
+
+        public async void SendDataToServer(string url, Request request, CallbackOnFinished callbackOnFinish) {
+            await this.SendDataToServerAsync(url, request, callbackOnFinish);
         }
 
     }

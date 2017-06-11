@@ -35,7 +35,9 @@ namespace DTRC.Services {
                 remoteCommandId = remoteMessage.GetNotification().Body;
             }
             else if(remoteMessage.Data != null) {
-                Debug.WriteLine("Data Message: " + remoteMessage.Data, TAG);
+                Debug.WriteLine("Data Message: Keys: " + remoteMessage.Data.Keys + ";   "+
+                    "Values: "+remoteMessage.Data.Values, 
+                    TAG);
                 if (remoteMessage.Data.ContainsKey("CommandId")) {
                     remoteCommandId = remoteMessage.Data["CommandId"];
                 }

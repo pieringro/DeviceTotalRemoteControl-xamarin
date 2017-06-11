@@ -13,6 +13,7 @@ namespace DTRC.Server {
 
         public const string SERVER_URL_SEND_PIC = SERVER_URL+"/newPic.php";
 
+        public const string SERVER_URL_UPDATE_TOKEN = SERVER_URL + "/updateDeviceToken.php";
 
     }
 }
