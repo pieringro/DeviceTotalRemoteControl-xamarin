@@ -12,10 +12,17 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DTRC.Services;
+using DTRC.Droid.Services;
 
-[assembly: Xamarin.Forms.Dependency(typeof(SystemConfig))]
+[assembly: Xamarin.Forms.Dependency(typeof(SystemConfigDroid))]
 namespace DTRC.Droid.Services {
     public class SystemConfigDroid : SystemConfig {
+
+
+        public SystemConfigDroid() {
+
+        }
+
 
         public override string GetDeviceId() {
             //TelephonyManager tm = (TelephonyManager)Application.Context.GetSystemService(Android.Content.Context.TelephonyService);

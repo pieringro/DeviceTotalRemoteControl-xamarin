@@ -2,7 +2,6 @@
 using Android.App;
 using Firebase.Iid;
 using DTRC.Server;
-using DTRC.Utility;
 
 namespace DTRC.Services
 {
