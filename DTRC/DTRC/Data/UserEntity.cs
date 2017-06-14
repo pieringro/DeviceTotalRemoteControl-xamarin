@@ -11,5 +11,13 @@ namespace DTRC.Data {
 
         public string PassUser { get; set; }
 
+        public bool Login(){
+
+        }
+
+        public bool SignUp(){
+            
+        }
+
     }
 }
