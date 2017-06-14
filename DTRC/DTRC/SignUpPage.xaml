@@ -5,6 +5,13 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to Xamarin Forms!" />
+            <Label Text="Email" />
+            <Entry x:Name="emailEntry" Placeholder="email@dominio.com" />
+            <Label Text="Password" />
+            <Entry x:Name="passwordEntry" IsPassword="true" />
+            
+            <Button Text="Sign Up" Clicked="OnLoginButtonClicked" />
+            <Label x:Name="messageLabel" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
