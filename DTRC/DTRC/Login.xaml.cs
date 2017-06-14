@@ -21,7 +21,7 @@ namespace DTRC {
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e) {
-            var user = new User {
+            var user = new UserEntity {
                 EmailUser = usernameEntry.Text,
                 PassUser = passwordEntry.Text
             };
@@ -38,8 +38,9 @@ namespace DTRC {
             }
         }
 
-        private bool ExecuteFirstLogin(User user) {
+        private bool ExecuteFirstLogin(UserEntity user) {
             //todo
+            bool result = user.Login();
             return true;
         }
 
