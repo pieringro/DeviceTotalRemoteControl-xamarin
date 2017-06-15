@@ -1,4 +1,5 @@
 ﻿using DTRC.Server;
+using DTRC.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,27 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DTRC.Data {
-    class UserEntity {
+    public class DeviceEntity {
         public delegate void Callback(bool result, string errorMessage);
 
         public string EmailUser { get; set; }
 
-        public string PassUser { get; set; }
+        public string DeviceToken { get; set; }
+
+        public string DeviceId { get; set; }
 
         public string LastErrorMessage;
 
-        public async Task<bool> Login(Callback loginCallback = null){
+        public async Task<bool> UpdateTokenAsync(Callback updateTokenCallback = null) {
             bool loginResult;
 
             RequestBuilder requestBuilder = new RequestBuilder();
             Request request = requestBuilder
+                .SetDevice_id(DeviceId)
+                .SetDevice_tokenFirebase(DeviceToken)
                 .SetEmailUser(EmailUser)
-                .SetPassUser(PassUser)
                 .Build();
 
             ServerRequest serverRequest = new ServerRequest();
 
-            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.SERVER_URL_LOGIN, request);
+            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.SERVER_URL_UPDATE_TOKEN, request);
 
             Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
@@ -42,13 +46,15 @@ namespace DTRC.Data {
             }
 
             LastErrorMessage = response.Message;
-            loginCallback(loginResult, LastErrorMessage);
+            updateTokenCallback(loginResult, LastErrorMessage);
             return loginResult;
         }
 
-        public void SignUp(){
-            
+        public async void UpdateToken(Callback updateTokenCallback) {
+            await this.UpdateTokenAsync(updateTokenCallback);
         }
+
+
 
     }
 }

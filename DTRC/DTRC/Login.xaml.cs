@@ -15,34 +15,28 @@ namespace DTRC {
             InitializeComponent();
         }
 
-
         async void OnSignUpButtonClicked(object sender, EventArgs e) {
             await Navigation.PushAsync(new SignUpPage());
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e) {
-            var user = new UserEntity {
+
+            UserEntity user = new UserEntity {
                 EmailUser = usernameEntry.Text,
                 PassUser = passwordEntry.Text
             };
 
-            bool isValid = ExecuteFirstLogin(user);
-            if (isValid) {
+            bool loginResult = await user.Login();
+
+            if (loginResult) {
                 App.IsUserLoggedIn = true;
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
             else {
-                messageLabel.Text = "Login failed";
+                messageLabel.Text = string.Format("Login failed. Message={0}", user.LastErrorMessage);
                 passwordEntry.Text = string.Empty;
             }
         }
-
-        private bool ExecuteFirstLogin(UserEntity user) {
-            //todo
-            bool result = user.Login();
-            return true;
-        }
-
     }
 }

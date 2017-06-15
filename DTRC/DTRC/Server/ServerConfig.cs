@@ -15,5 +15,7 @@ namespace DTRC.Server {
 
         public const string SERVER_URL_UPDATE_TOKEN = SERVER_URL + "/updateDeviceToken.php";
 
+        public const string SERVER_URL_LOGIN = SERVER_URL + "/loginUser.php";
+
     }
 }

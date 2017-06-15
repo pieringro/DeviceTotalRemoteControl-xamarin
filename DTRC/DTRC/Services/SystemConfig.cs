@@ -20,7 +20,7 @@ namespace DTRC.Services {
         /// <returns></returns>
         public string GetEmailUser() {
             if(EmailUser == null) {
-                //operazioni per ottenere l'email memorizzata
+                //TODO operazioni per ottenere l'email memorizzata
             }
             return EmailUser;
         }
@@ -28,7 +28,7 @@ namespace DTRC.Services {
 
         public string GetPassUser() {
             if(PassUser == null) {
-                //operazioni per ottenere la password memorizzata
+                //TODO operazioni per ottenere la password memorizzata
             }
             return PassUser;
         }

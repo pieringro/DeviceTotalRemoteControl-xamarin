@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Android.App;
 using Firebase.Iid;
-using DTRC.Server;
+using DTRC.Data;
 
 namespace DTRC.Services
 {
@@ -19,40 +19,31 @@ namespace DTRC.Services
 
 
         public override void OnTokenRefresh() {
-            string refreshedToken = FirebaseInstanceId.Instance.Token;
+            string refreshedToken = Firebase.Iid.FirebaseInstanceId.Instance.Token;
             Debug.WriteLine("Refreshed token: " + refreshedToken, TAG);
             UpdateTokenToServer(refreshedToken);
         }
 
 
         private void UpdateTokenToServer(string token) {
-            // TODO mi collego al mio server e comunico il token di questo dispositivo
+            // mi collego al mio server e comunico il token di questo dispositivo
             Debug.WriteLine("SendRegistrationToServer("+token+") chiamata", TAG);
-            
-            RequestBuilder requestBuilder = new RequestBuilder();
-            Request request = requestBuilder
-                .SetDevice_id(config.GetDeviceId())
-                .SetDevice_tokenFirebase(token)
-                .SetEmailUser(config.GetEmailUser())
-                .SetPassUser(config.GetPassUser())
-                .Build();
 
-            ServerRequest serverRequest = new ServerRequest();
-            serverRequest.SendDataToServer(ServerConfig.SERVER_URL_UPDATE_TOKEN, request,
-                (serverResponse) => {
-                    Response response = ServerResponse.ParsingJsonResponse(serverResponse);
-
-                    if (!response.Error) {
-                        Debug.WriteLine(string.Format("Aggiornamento token avvenuto con successo"));
-                    }
-                    else {
-                        Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
-                                response.Message));
-                    }
-                });
-            
+            DeviceEntity device = new DeviceEntity {
+                DeviceId = config.GetDeviceId(),
+                DeviceToken = token,
+                EmailUser = config.GetEmailUser()
+            };
+            device.UpdateToken((updateTokenResult, errorMessage) => {
+                if (updateTokenResult) {
+                    Debug.WriteLine(string.Format("Aggiornamento token avvenuto con successo"));
+                }
+                else {
+                    Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
+                        errorMessage));
+                }
+            });
         }
 
-        
     }
 }
