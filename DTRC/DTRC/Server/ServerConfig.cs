@@ -17,5 +17,15 @@ namespace DTRC.Server {
 
         public const string SERVER_URL_LOGIN = SERVER_URL + "/loginUser.php";
 
+        public const string SERVER_URL_NEW_DEVICE = SERVER_URL + "/newDevice.php";
+
     }
+
+
+
+    public static class SystemErrors {
+        public static string DEVICE_EXISTS = "0";
+    }
+
+
 }

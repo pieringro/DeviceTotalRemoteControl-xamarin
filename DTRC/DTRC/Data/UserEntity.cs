@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DTRC.Data {
-    class UserEntity {
+    public class UserEntity {
         public delegate void Callback(bool result, string errorMessage);
 
         public string EmailUser { get; set; }
