@@ -69,6 +69,18 @@
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="mscorlib" />
+    <Reference Include="PCLAppConfig, Version=0.2.0.0, Culture=neutral, PublicKeyToken=7dc9bc9afb3fa588, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PCLAppConfig.0.3.2\lib\MonoAndroid10\PCLAppConfig.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PCLAppConfig.FileSystemStream.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PCLAppConfig.0.3.2\lib\MonoAndroid10\PCLAppConfig.FileSystemStream.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PCLAppConfig.FileSystemStream.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PCLAppConfig.0.3.2\lib\MonoAndroid10\PCLAppConfig.FileSystemStream.Android.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\monoandroid\PCLStorage.dll</HintPath>
       <Private>True</Private>
@@ -226,9 +238,8 @@
     <Compile Include="Services\SystemConfigDroid.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <AndroidAsset Include="..\DTRC\app.config">
-      <Link>Assets\app.config</Link>
+    <AndroidAsset Include="..\DTRC\App.config">
+      <Link>Assets\App.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <None Include="packages.config" />

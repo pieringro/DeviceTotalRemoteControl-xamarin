@@ -1,6 +1,8 @@
-﻿using System;
+﻿using PCLAppConfig;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 using Xamarin.Forms;
@@ -22,8 +24,14 @@ namespace DTRC {
         }
 
         protected override void OnStart() {
+
+
+
             //set emailUser e passUser se esistono nella memoria di massa
             //effettua subito la login
+
+
+
         }
 
         protected override void OnSleep() {

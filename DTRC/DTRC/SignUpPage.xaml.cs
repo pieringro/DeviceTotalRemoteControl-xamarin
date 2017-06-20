@@ -13,5 +13,9 @@ namespace DTRC {
         public SignUpPage() {
             InitializeComponent();
         }
+
+        private void OnLoginButtonClicked(object sender, EventArgs e) {
+
+        }
     }
 }

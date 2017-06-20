@@ -12,6 +12,7 @@ using Android.Util;
 using XLabs.Ioc;
 using XLabs.Platform.Device;
 using XLabs.Platform.Services.Media;
+using PCLAppConfig;
 using DTRC.Droid.Services.Commands;
 
 namespace DTRC.Droid {
@@ -23,7 +24,7 @@ namespace DTRC.Droid {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
-
+            
             if (!Resolver.IsSet) { 
                 var container = new SimpleContainer();
                 container.Register<IDevice>(t => AndroidDevice.CurrentDevice);
@@ -32,6 +33,7 @@ namespace DTRC.Droid {
             }
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
             LoadApplication(new App());
 
             if (Intent.Extras != null) {
@@ -42,11 +44,6 @@ namespace DTRC.Droid {
             }
 
             this.IsPlayServicesAvailable();
-
-
-            
-
-
         }
 
 

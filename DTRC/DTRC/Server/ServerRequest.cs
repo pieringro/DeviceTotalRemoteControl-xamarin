@@ -103,7 +103,7 @@ namespace DTRC.Server {
             form.Add(new StringContent(JsonRequest), "data");
             form.Add(new ByteArrayContent(fileToSendBytesArray, 0, fileToSendBytesArray.Length),
                 name, filePath);
-            HttpResponseMessage response = await httpClient.PostAsync(ServerConfig.SERVER_URL_SEND_PIC, form);
+            HttpResponseMessage response = await httpClient.PostAsync(ServerConfig.Instance.server_url_send_pic, form);
 
             response.EnsureSuccessStatusCode();
             httpClient.Dispose();

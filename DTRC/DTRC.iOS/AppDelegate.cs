@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PCLAppConfig;
 
 using Foundation;
 using UIKit;
@@ -20,6 +21,7 @@ namespace DTRC.iOS {
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
             global::Xamarin.Forms.Forms.Init();
+            ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

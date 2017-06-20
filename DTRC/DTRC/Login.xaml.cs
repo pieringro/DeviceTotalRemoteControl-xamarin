@@ -1,4 +1,6 @@
 ﻿using DTRC.Data;
+using PCLAppConfig;
+using PCLAppConfig.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,6 @@ namespace DTRC {
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e) {
-
             UserEntity user = new UserEntity {
                 EmailUser = usernameEntry.Text,
                 PassUser = passwordEntry.Text

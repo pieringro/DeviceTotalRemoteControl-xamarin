@@ -31,7 +31,8 @@ namespace DTRC.Data {
 
             ServerRequest serverRequest = new ServerRequest();
 
-            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.SERVER_URL_UPDATE_TOKEN, request);
+            string serverResponse = await serverRequest.SendDataToServerAsync(
+                ServerConfig.Instance.server_url_update_token, request);
 
             Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
@@ -70,7 +71,7 @@ namespace DTRC.Data {
                 .Build();
 
             ServerRequest serverRequest = new ServerRequest();
-            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.SERVER_URL_NEW_DEVICE, request);
+            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_new_device, request);
             Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
             if (!response.Error) {

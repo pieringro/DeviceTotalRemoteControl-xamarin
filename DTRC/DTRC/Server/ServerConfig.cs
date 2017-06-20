@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCLAppConfig;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +7,31 @@ using System.Threading.Tasks;
 
 namespace DTRC.Server {
     public class ServerConfig {
+        private static ServerConfig _instance = null;
+        public static ServerConfig Instance {
+            get {
+                if(_instance == null) {
+                    _instance = new ServerConfig();
+                }
+                return _instance;
+            }
+        }
+        
+        private ServerConfig() {
+            server_url                  = ConfigurationManager.AppSettings["server_url"];
+            server_url_send_json_data   = server_url + ConfigurationManager.AppSettings["server_url_send_json_data"];
+            server_url_send_pic         = server_url + ConfigurationManager.AppSettings["server_url_send_pic"];
+            server_url_update_token     = server_url + ConfigurationManager.AppSettings["server_url_update_token"];
+            server_url_login            = server_url + ConfigurationManager.AppSettings["server_url_login"];
+            server_url_new_device       = server_url + ConfigurationManager.AppSettings["server_url_new_device"];
+        }
 
-        public const string SERVER_URL = "http://192.168.1.8/DTRC";
-
-        public const string SERVER_URL_SEND_JSON_DATA = SERVER_URL+"/receiveData.php";
-
-        public const string SERVER_URL_SEND_PIC = SERVER_URL+"/newPic.php";
-
-        public const string SERVER_URL_UPDATE_TOKEN = SERVER_URL + "/updateDeviceToken.php";
-
-        public const string SERVER_URL_LOGIN = SERVER_URL + "/loginUser.php";
-
-        public const string SERVER_URL_NEW_DEVICE = SERVER_URL + "/newDevice.php";
-
+        public string server_url;
+        public string server_url_send_json_data;
+        public string server_url_send_pic;
+        public string server_url_update_token;
+        public string server_url_login;
+        public string server_url_new_device;
     }
 
 
