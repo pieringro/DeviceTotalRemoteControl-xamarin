@@ -1,4 +1,5 @@
-﻿using PCLAppConfig;
+﻿using DTRC.Services;
+using PCLAppConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ using Xamarin.Forms;
 namespace DTRC {
     public partial class App : Application {
         public static bool IsUserLoggedIn { get; set; }
-        public static string EmailUser { get; set; }
-        public static string PassUser { get; set; }
+        public static SystemConfig config;
 
         public App() {
             InitializeComponent();
+            config = Xamarin.Forms.DependencyService.Get<SystemConfig>();
             if (!IsUserLoggedIn) {
                 MainPage = new NavigationPage(new Login());
             }

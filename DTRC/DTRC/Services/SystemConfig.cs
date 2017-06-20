@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Plugin.SecureStorage;
 
 namespace DTRC.Services {
     public abstract class SystemConfig {
 
-        protected string DeviceId;
-        protected string EmailUser;
-        protected string PassUser;
+        protected string DeviceId  = null;
+        protected string EmailUser = null;
+        protected string PassUser  = null;
+
+        public virtual bool ClearDataStored() {
+            bool result = CrossSecureStorage.Current.DeleteKey("EmailUser");
+            return result;
+        }
 
         public abstract string GetDeviceId();
 
@@ -21,19 +27,20 @@ namespace DTRC.Services {
         public string GetEmailUser() {
             if(EmailUser == null) {
                 //TODO operazioni per ottenere l'email memorizzata
+                if (CrossSecureStorage.Current.HasKey("EmailUser")) {
+                    EmailUser = CrossSecureStorage.Current.GetValue("EmailUser");
+                }
             }
             return EmailUser;
         }
 
-
-        public string GetPassUser() {
-            if(PassUser == null) {
-                //TODO operazioni per ottenere la password memorizzata
-            }
-            return PassUser;
+        public void SetEmailUser(string emailUser) {
+            CrossSecureStorage.Current.SetValue("EmailUser", emailUser);
+            EmailUser = emailUser;
         }
 
-
+        public abstract string GetPassUser();
+        public abstract void SetPassUser(string passUser);
     }
 
 

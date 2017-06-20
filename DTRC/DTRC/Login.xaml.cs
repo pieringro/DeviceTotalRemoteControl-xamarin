@@ -3,6 +3,7 @@ using PCLAppConfig;
 using PCLAppConfig.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,12 +32,18 @@ namespace DTRC {
 
             if (loginResult) {
                 App.IsUserLoggedIn = true;
+                App.config.SetEmailUser(user.EmailUser);
+                App.config.SetPassUser(user.PassUser);
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
             else {
                 messageLabel.Text = string.Format("Login failed. Message={0}", user.LastErrorMessage);
                 passwordEntry.Text = string.Empty;
+                bool clearDataStoredResult = App.config.ClearDataStored();
+                if (!clearDataStoredResult) {
+                    Debug.WriteLine("Error, unable to clear data storage");
+                }
             }
         }
     }
