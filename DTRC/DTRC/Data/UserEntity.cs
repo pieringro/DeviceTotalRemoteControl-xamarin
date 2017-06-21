@@ -46,7 +46,7 @@ namespace DTRC.Data {
             return loginResult;
         }
 
-        public void SignUp(Callback signUpCallback){
+        public async Task<bool> SignUp(Callback signUpCallback = null){
             bool signupResult;
 
             RequestBuilder requestBuilder = new RequestBuilder();
