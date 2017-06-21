@@ -24,6 +24,7 @@ namespace DTRC.Server {
             server_url_update_token     = server_url + ConfigurationManager.AppSettings["server_url_update_token"];
             server_url_login            = server_url + ConfigurationManager.AppSettings["server_url_login"];
             server_url_new_device       = server_url + ConfigurationManager.AppSettings["server_url_new_device"];
+            server_url_new_user         = server_url + ConfigurationManager.AppSettings["server_url_new_user"];
         }
 
         public string server_url;
@@ -32,6 +33,7 @@ namespace DTRC.Server {
         public string server_url_update_token;
         public string server_url_login;
         public string server_url_new_device;
+        public string server_url_new_user;
     }
 
 
