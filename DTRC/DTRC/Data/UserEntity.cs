@@ -72,7 +72,7 @@ namespace DTRC.Data {
             }
 
             LastErrorMessage = response.Message;
-            loginCallback(signupResult, LastErrorMessage);
+            signUpCallback(signupResult, LastErrorMessage);
             return signupResult;
         }
 
