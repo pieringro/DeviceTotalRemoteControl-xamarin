@@ -57,7 +57,7 @@ namespace DTRC.Data {
             
             ServerRequest serverRequest = new ServerRequest();
 
-            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_signup, request);
+            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_new_user, request);
 
             Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
