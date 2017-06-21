@@ -63,17 +63,17 @@ namespace DTRC.Data {
 
             if (!response.Error) {
                 Debug.WriteLine(string.Format("Registrazione utente avvenuta con successo"));
-                loginResult = true;
+                signupResult = true;
             }
             else {
                 Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
                         response.Message));
-                loginResult = false;
+                signupResult = false;
             }
 
             LastErrorMessage = response.Message;
-            loginCallback(loginResult, LastErrorMessage);
-            return loginResult;
+            loginCallback(signupResult, LastErrorMessage);
+            return signupResult;
         }
 
     }
