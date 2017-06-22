@@ -63,33 +63,45 @@ namespace DTRC.Data {
             await this.LoginAsync(loginCallback);
         }
 
-        public async Task<bool> SignUp(Callback signUpCallback = null){
+        public async Task<bool> SignUpAsync(Callback signUpCallback = null){
             bool signupResult;
 
             RequestBuilder requestBuilder = new RequestBuilder();
             Request request = requestBuilder
-                .SetEmailUser(EmailUser)
-                .SetPassUser(PassUser)
+                .SetEmail(Email)
+                .SetPass(Pass)
                 .Build();
             
             ServerRequest serverRequest = new ServerRequest();
 
-            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_new_user, request);
+            try { 
+                string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_new_user, request);
 
-            Response response = ServerResponse.ParsingJsonResponse(serverResponse);
+                Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
-            if (!response.Error) {
-                Debug.WriteLine(string.Format("Registrazione utente avvenuta con successo"));
-                signupResult = true;
+                if (!response.Error) {
+                    Debug.WriteLine(string.Format("Registrazione utente avvenuta con successo"));
+                    signupResult = true;
+                }
+                else {
+                    Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
+                            response.Message));
+                    signupResult = false;
+                }
+
+                LastErrorMessage = response.Message;
+
             }
-            else {
-                Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
-                        response.Message));
+            catch (Exception e) {
+                string errorMsg = "Error connecting to \"" + ServerConfig.Instance.server_url_new_user + "\"\r\n";
+                errorMsg += e.Message;
+                Debug.WriteLine(e.StackTrace);
+
                 signupResult = false;
+                LastErrorMessage = errorMsg;
             }
 
-            LastErrorMessage = response.Message;
-            signUpCallback(signupResult, LastErrorMessage);
+            signUpCallback?.Invoke(signupResult, LastErrorMessage);
             return signupResult;
         }
 

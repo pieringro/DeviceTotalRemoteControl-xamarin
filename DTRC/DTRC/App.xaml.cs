@@ -13,38 +13,65 @@ namespace DTRC {
     public partial class App : Application {
         public static bool IsUserLoggedIn { get; set; }
         public static SystemConfig config;
+        public static FirebaseInstanceId firebaseInstanceId;
 
         public App() {
             InitializeComponent();
-            config = Xamarin.Forms.DependencyService.Get<SystemConfig>();
-            if (!IsUserLoggedIn) {
-                
-                if (config.GetEmailUser() != null && config.GetPassUser() != null) {
+            config = DependencyService.Get<SystemConfig>();
+            firebaseInstanceId = DependencyService.Get<FirebaseInstanceId>();
 
-                    UserEntity user = new UserEntity {
-                        Email = config.GetEmailUser(),
-                        Pass = config.GetPassUser()
-                    };
-                     
-                    user.Login((result, errorMsg) => {
-                        if (result) {
-                            IsUserLoggedIn = true;
-                            config.SetEmailUser(user.Email);
-                            config.SetPassUser(user.Pass);
-                            MainPage = new MainPage();
-                        }
-                        else {
-                            MainPage = new NavigationPage(new Login());
-                        }
-                    });
+            if (!IsUserLoggedIn) {
+
+                if (config.GetEmailUser() != null && config.GetPassUser() != null) {
+                    DoAutomaticLogin();
+                    
                 }
-                
+
                 MainPage = new NavigationPage(new Login());
             }
             else {
                 MainPage = new MainPage();
             }
         }
+
+
+        private async void DoAutomaticLogin() {
+            UserEntity user = new UserEntity {
+                Email = config.GetEmailUser(),
+                Pass = config.GetPassUser()
+            };
+
+            bool loginResult = await user.LoginAsync();
+
+            if (loginResult) {
+                IsUserLoggedIn = true;
+                config.SetEmailUser(user.Email);
+                config.SetPassUser(user.Pass);
+
+                DeviceEntity device = new DeviceEntity {
+                    DeviceId = App.config.GetDeviceId(),
+                    DeviceToken = App.firebaseInstanceId.Token,
+                    User = user
+                };
+
+                bool updateTokenResult = await device.UpdateTokenAsync();
+                if (updateTokenResult) {
+                    MainPage = new MainPage();
+                }
+                else {
+                    //update token fallito, provo con nuovo device
+                    bool newDeviceResult = await device.NewDeviceAsync();
+
+                    if (newDeviceResult) {
+                        MainPage = new NavigationPage(new Login());
+                    }
+                }
+            }
+            else {
+                MainPage = new NavigationPage(new Login());
+            }
+        }
+
 
         protected override void OnStart() {
 

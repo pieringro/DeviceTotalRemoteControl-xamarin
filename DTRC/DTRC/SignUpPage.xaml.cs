@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTRC.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,23 +15,23 @@ namespace DTRC {
             InitializeComponent();
         }
 
-        private void OnSignUpButtonClicked(object sender, EventArgs e) {
+        async void OnSignUpButtonClicked(object sender, EventArgs e) {
             UserEntity user = new UserEntity {
-                EmailUser = emailEntry.Text,
-                PassUser = passwordEntry.Text
+                Email = emailEntry.Text,
+                Pass = passwordEntry.Text
             };
 
-            bool signupResult = user.SignUp();
+            bool signupResult = await user.SignUpAsync();
 
             if(signupResult){
                 App.IsUserLoggedIn = true;
-                App.config.SetEmailUser(user.EmailUser);
-                App.config.SetPassUser(user.PassUser);
+                App.config.SetEmailUser(user.Email);
+                App.config.SetPassUser(user.Pass);
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
             else{
-
+                messageLabel.Text = string.Format("Sign Up failed. Message={0}", user.LastErrorMessage);
             }
         }
     }

@@ -7,7 +7,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="StartAndExpand">
-            <Label Text="Username" />
+            <Label Text="Email" />
             <Entry x:Name="usernameEntry" Placeholder="username" />
             <Label Text="Password" />
             <Entry x:Name="passwordEntry" IsPassword="true" />

@@ -34,6 +34,21 @@ namespace DTRC {
                 App.IsUserLoggedIn = true;
                 App.config.SetEmailUser(user.Email);
                 App.config.SetPassUser(user.Pass);
+
+                DeviceEntity device = new DeviceEntity {
+                    DeviceId = App.config.GetDeviceId(),
+                    DeviceToken = App.firebaseInstanceId.Token,
+                    User = user
+                };
+
+                bool newDeviceResult = await device.NewDeviceAsync();
+                
+                if (!newDeviceResult) {
+                    await DisplayAlert("Error", 
+                        string.Format("", device.LastErrorMessage), "OK");
+                }
+
+
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
