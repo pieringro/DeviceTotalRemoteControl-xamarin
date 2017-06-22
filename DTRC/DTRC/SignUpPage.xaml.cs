@@ -14,8 +14,24 @@ namespace DTRC {
             InitializeComponent();
         }
 
-        private void OnLoginButtonClicked(object sender, EventArgs e) {
+        private void OnSignUpButtonClicked(object sender, EventArgs e) {
+            UserEntity user = new UserEntity {
+                EmailUser = emailEntry.Text,
+                PassUser = passwordEntry.Text
+            };
 
+            bool signupResult = user.SignUp();
+
+            if(signupResult){
+                App.IsUserLoggedIn = true;
+                App.config.SetEmailUser(user.EmailUser);
+                App.config.SetPassUser(user.PassUser);
+                Navigation.InsertPageBefore(new MainPage(), this);
+                await Navigation.PopAsync();
+            }
+            else{
+
+            }
         }
     }
 }

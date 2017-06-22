@@ -63,14 +63,34 @@ namespace DTRC.Data {
             await this.LoginAsync(loginCallback);
         }
 
+        public async Task<bool> SignUp(Callback signUpCallback = null){
+            bool signupResult;
 
+            RequestBuilder requestBuilder = new RequestBuilder();
+            Request request = requestBuilder
+                .SetEmailUser(EmailUser)
+                .SetPassUser(PassUser)
+                .Build();
+            
+            ServerRequest serverRequest = new ServerRequest();
 
+            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_new_user, request);
 
+            Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
+            if (!response.Error) {
+                Debug.WriteLine(string.Format("Registrazione utente avvenuta con successo"));
+                signupResult = true;
+            }
+            else {
+                Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
+                        response.Message));
+                signupResult = false;
+            }
 
-
-        public void SignUp() {
-
+            LastErrorMessage = response.Message;
+            signUpCallback(signupResult, LastErrorMessage);
+            return signupResult;
         }
 
     }
