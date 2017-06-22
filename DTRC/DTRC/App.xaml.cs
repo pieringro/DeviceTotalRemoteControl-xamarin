@@ -1,4 +1,5 @@
-﻿using DTRC.Services;
+﻿using DTRC.Data;
+using DTRC.Services;
 using PCLAppConfig;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,27 @@ namespace DTRC {
             InitializeComponent();
             config = Xamarin.Forms.DependencyService.Get<SystemConfig>();
             if (!IsUserLoggedIn) {
+                
+                if (config.GetEmailUser() != null && config.GetPassUser() != null) {
+
+                    UserEntity user = new UserEntity {
+                        Email = config.GetEmailUser(),
+                        Pass = config.GetPassUser()
+                    };
+                     
+                    user.Login((result, errorMsg) => {
+                        if (result) {
+                            IsUserLoggedIn = true;
+                            config.SetEmailUser(user.Email);
+                            config.SetPassUser(user.Pass);
+                            MainPage = new MainPage();
+                        }
+                        else {
+                            MainPage = new NavigationPage(new Login());
+                        }
+                    });
+                }
+                
                 MainPage = new NavigationPage(new Login());
             }
             else {
@@ -25,13 +47,6 @@ namespace DTRC {
         }
 
         protected override void OnStart() {
-
-
-
-            //set emailUser e passUser se esistono nella memoria di massa
-            //effettua subito la login
-
-
 
         }
 

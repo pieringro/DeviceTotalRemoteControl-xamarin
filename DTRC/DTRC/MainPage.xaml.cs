@@ -16,6 +16,10 @@ namespace DTRC {
             btnLogToken.Clicked += btnLogToken_Clicked;
             btnTryTakePictures.Clicked += btnTryTakePicture_Clicked;
             btnReadAllPrivateFiles.Clicked += btnReadAllPrivateFiles_Clicked;
+
+            //update del token firebase sul server
+
+
         }
 
         public void btnLogToken_Clicked(object sender, EventArgs e) {

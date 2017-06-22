@@ -23,8 +23,8 @@ namespace DTRC.Server {
         public string device_tokenFirebase;
         public string device_id;
 
-        public string emailUser;
-        public string passUser;
+        public string email;
+        public string pass;
     }
 
     #region Request Builder
@@ -50,15 +50,15 @@ namespace DTRC.Server {
             return this;
         }
 
-        public RequestBuilder SetEmailUser(string emailUser) {
+        public RequestBuilder SetEmail(string email) {
             this.InitRequest();
-            request.emailUser = emailUser;
+            request.email = email;
             return this;
         }
 
-        public RequestBuilder SetPassUser(string passUser) {
+        public RequestBuilder SetPass(string pass) {
             this.InitRequest();
-            request.passUser = passUser;
+            request.pass = pass;
             return this;
         }
 

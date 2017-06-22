@@ -8,6 +8,11 @@ using Plugin.SecureStorage;
 
 namespace DTRC.Services {
     public abstract class SystemConfig {
+        /// <summary>
+        /// Password utilizzata per la criptazione dei dati sensibili dell'utente
+        /// Dovrebbe essere una chiave di crittazione per la libreria Plugin.SecureStorage
+        /// </summary>
+        public static readonly string STORAGE_PASSWORD = "3fj389bn278v";
 
         protected string DeviceId  = null;
         protected string EmailUser = null;
@@ -26,7 +31,7 @@ namespace DTRC.Services {
         /// <returns></returns>
         public string GetEmailUser() {
             if(EmailUser == null) {
-                //TODO operazioni per ottenere l'email memorizzata
+                //operazioni per ottenere l'email memorizzata
                 if (CrossSecureStorage.Current.HasKey("EmailUser")) {
                     EmailUser = CrossSecureStorage.Current.GetValue("EmailUser");
                 }
@@ -39,8 +44,20 @@ namespace DTRC.Services {
             EmailUser = emailUser;
         }
 
-        public abstract string GetPassUser();
-        public abstract void SetPassUser(string passUser);
+        public string GetPassUser() {
+            if (PassUser == null) {
+                //operazioni per ottenere la password memorizzata
+                if (CrossSecureStorage.Current.HasKey("PassUser")) {
+                    PassUser = CrossSecureStorage.Current.GetValue("PassUser");
+                }
+            }
+            return PassUser;
+        }
+
+        public void SetPassUser(string passUser) {
+            CrossSecureStorage.Current.SetValue("PassUser", passUser);
+            PassUser = passUser;
+        }
     }
 
 

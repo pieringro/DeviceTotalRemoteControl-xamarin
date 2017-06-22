@@ -24,16 +24,16 @@ namespace DTRC {
 
         async void OnLoginButtonClicked(object sender, EventArgs e) {
             UserEntity user = new UserEntity {
-                EmailUser = usernameEntry.Text,
-                PassUser = passwordEntry.Text
+                Email = usernameEntry.Text,
+                Pass = passwordEntry.Text
             };
 
-            bool loginResult = await user.Login();
+            bool loginResult = await user.LoginAsync();
 
             if (loginResult) {
                 App.IsUserLoggedIn = true;
-                App.config.SetEmailUser(user.EmailUser);
-                App.config.SetPassUser(user.PassUser);
+                App.config.SetEmailUser(user.Email);
+                App.config.SetPassUser(user.Pass);
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }

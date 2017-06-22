@@ -14,6 +14,8 @@ using XLabs.Platform.Device;
 using XLabs.Platform.Services.Media;
 using PCLAppConfig;
 using DTRC.Droid.Services.Commands;
+using Plugin.SecureStorage;
+using DTRC.Services;
 
 namespace DTRC.Droid {
     [Activity(Label = "DTRC", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -32,9 +34,18 @@ namespace DTRC.Droid {
                 Resolver.SetResolver(container.GetResolver());  // Resolving the services 
             }
 
+            
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
+            try {
+                ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
+            } catch (TypeInitializationException e) {
+                System.Diagnostics.Debug.WriteLine("ConfigurationManager exception: "+e.StackTrace);
+            }
+
+            SecureStorageImplementation.StoragePassword = SystemConfig.STORAGE_PASSWORD;
             LoadApplication(new App());
+            
+
 
             if (Intent.Extras != null) {
                 foreach (var key in Intent.Extras.KeySet()) {
@@ -44,6 +55,7 @@ namespace DTRC.Droid {
             }
 
             this.IsPlayServicesAvailable();
+
         }
 
 

@@ -26,28 +26,40 @@ namespace DTRC.Data {
             Request request = requestBuilder
                 .SetDevice_id(DeviceId)
                 .SetDevice_tokenFirebase(DeviceToken)
-                .SetEmailUser(User.EmailUser)
+                .SetEmail(User.Email)
                 .Build();
 
             ServerRequest serverRequest = new ServerRequest();
 
-            string serverResponse = await serverRequest.SendDataToServerAsync(
-                ServerConfig.Instance.server_url_update_token, request);
+            try {
+                string serverResponse = await serverRequest.SendDataToServerAsync(
+                    ServerConfig.Instance.server_url_update_token, request);
 
-            Response response = ServerResponse.ParsingJsonResponse(serverResponse);
+                Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
-            if (!response.Error) {
-                Debug.WriteLine(string.Format("Token aggiornato con successo"));
-                updateTokenResult = true;
+                if (!response.Error) {
+                    Debug.WriteLine(string.Format("Token aggiornato con successo"));
+                    updateTokenResult = true;
+                }
+                else {
+                    Debug.WriteLine(string.Format("Il server ha restituito un errore durante l'aggiornamento del token. " +
+                        "Messaggio : {0}", response.Message));
+                    updateTokenResult = false;
+                }
+
+                LastErrorMessage = response.Message;
+
             }
-            else {
-                Debug.WriteLine(string.Format("Il server ha restituito un errore durante l'aggiornamento del token. "+
-                    "Messaggio : {0}", response.Message));
+            catch(Exception e) {
+                string errorMsg = "Error connecting to \""+ ServerConfig.Instance.server_url_update_token+"\"\r\n";
+                errorMsg += e.Message;
+                Debug.WriteLine(e.StackTrace);
+
                 updateTokenResult = false;
+                LastErrorMessage = errorMsg;
             }
 
-            LastErrorMessage = response.Message;
-            updateTokenCallback(updateTokenResult, LastErrorMessage);
+            updateTokenCallback?.Invoke(updateTokenResult, LastErrorMessage);
             return updateTokenResult;
         }
 
@@ -66,30 +78,45 @@ namespace DTRC.Data {
             Request request = requestBuilder
                 .SetDevice_id(DeviceId)
                 .SetDevice_tokenFirebase(DeviceToken)
-                .SetEmailUser(User.EmailUser)
-                .SetPassUser(User.PassUser)
+                .SetEmail(User.Email)
+                .SetPass(User.Pass)
                 .Build();
 
             ServerRequest serverRequest = new ServerRequest();
-            string serverResponse = await serverRequest.SendDataToServerAsync(ServerConfig.Instance.server_url_new_device, request);
-            Response response = ServerResponse.ParsingJsonResponse(serverResponse);
 
-            if (!response.Error) {
-                Debug.WriteLine(string.Format("Nuovo dispositivo aggiunto con successo"));
-                newDeviceResult = true;
+            try {
+                string serverResponse = await serverRequest.SendDataToServerAsync(
+                    ServerConfig.Instance.server_url_new_device, request);
+                Response response = ServerResponse.ParsingJsonResponse(serverResponse);
+
+                if (!response.Error) {
+                    Debug.WriteLine(string.Format("Nuovo dispositivo aggiunto con successo"));
+                    newDeviceResult = true;
+                }
+                else {
+                    Debug.WriteLine(string.Format("Il server ha restituito un errore durante l'aggiunta del nuovo dispositivo." +
+                        "Messaggio : {0}", response.Message));
+                    newDeviceResult = false;
+                }
+
+                if (!newDeviceResult && response.Message != null && response.Message == SystemErrors.DEVICE_EXISTS) {
+                    return await this.UpdateTokenAsync(newDeviceCallback);
+                }
+
+                LastErrorMessage = response.Message;
+
             }
-            else {
-                Debug.WriteLine(string.Format("Il server ha restituito un errore durante l'aggiunta del nuovo dispositivo."+
-                    "Messaggio : {0}", response.Message));
+            catch (Exception e) {
+                string errorMsg = "Error connecting to \"" + ServerConfig.Instance.server_url_new_device + "\"\r\n";
+                errorMsg += e.Message;
+                Debug.WriteLine(e.StackTrace);
+
                 newDeviceResult = false;
+                LastErrorMessage = errorMsg;
             }
 
-            if (!newDeviceResult && response.Message != null && response.Message == SystemErrors.DEVICE_EXISTS) {
-                return await this.UpdateTokenAsync(newDeviceCallback);
-            }
-            
-            LastErrorMessage = response.Message;
-            newDeviceCallback(newDeviceResult, LastErrorMessage);
+
+            newDeviceCallback?.Invoke(newDeviceResult, LastErrorMessage);
             return newDeviceResult;
         }
 

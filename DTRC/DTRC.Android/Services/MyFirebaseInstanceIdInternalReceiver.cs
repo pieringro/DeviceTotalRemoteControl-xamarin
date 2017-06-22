@@ -32,7 +32,7 @@ namespace DTRC.Services
             DeviceEntity device = new DeviceEntity {
                 DeviceId = config.GetDeviceId(),
                 DeviceToken = token,
-                User = new UserEntity { EmailUser = config.GetEmailUser() }
+                User = new UserEntity { Email = config.GetEmailUser() }
             };
             device.UpdateToken((updateTokenResult, errorMessage) => {
                 if (updateTokenResult) {

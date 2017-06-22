@@ -37,20 +37,5 @@ namespace DTRC.Droid.Services {
             return DeviceId;
         }
 
-        public override string GetPassUser() {
-            if (PassUser == null) {
-                //TODO operazioni per ottenere l'email memorizzata
-                if (SecureStorageImplementation.StoragePassword != null) {
-                    PassUser = SecureStorageImplementation.StoragePassword;
-                }
-            }
-            return PassUser;
-        }
-
-        public override void SetPassUser(string passUser) {
-            SecureStorageImplementation.StoragePassword = passUser;
-            PassUser = passUser;
-        }
-
     }
 }
