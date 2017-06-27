@@ -27,8 +27,22 @@ namespace DTRC {
                 App.IsUserLoggedIn = true;
                 App.config.SetEmailUser(user.Email);
                 App.config.SetPassUser(user.Pass);
-                Navigation.InsertPageBefore(new MainPage(), this);
-                await Navigation.PopAsync();
+
+                DeviceEntity device = new DeviceEntity {
+                    DeviceId = App.config.GetDeviceId(),
+                    DeviceToken = App.firebaseInstanceId.Token,
+                    User = user
+                };
+
+                bool newDeviceResult = await device.NewDeviceOrUpdateTokenIfExistsAsync();
+
+                if (!newDeviceResult) {
+                    await DisplayAlert("Error",
+                        string.Format("", device.LastErrorMessage), "OK");
+                }
+                
+                Application.Current.MainPage = new MainPage();
+                await Navigation.PopToRootAsync();
             }
             else{
                 messageLabel.Text = string.Format("Sign Up failed. Message={0}", user.LastErrorMessage);

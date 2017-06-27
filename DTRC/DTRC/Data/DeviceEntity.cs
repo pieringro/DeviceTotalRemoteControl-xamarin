@@ -71,7 +71,7 @@ namespace DTRC.Data {
 
 
 
-        public async Task<bool> NewDeviceAsync(Callback newDeviceCallback = null) {
+        public async Task<bool> NewDeviceOrUpdateTokenIfExistsAsync(Callback newDeviceCallback = null) {
             bool newDeviceResult;
 
             RequestBuilder requestBuilder = new RequestBuilder();
@@ -120,8 +120,8 @@ namespace DTRC.Data {
             return newDeviceResult;
         }
 
-        public async void NewDevice(Callback newDeviceCallback) {
-            await this.NewDeviceAsync(newDeviceCallback);
+        public async void NewDeviceOrUpdateTokenIfExists(Callback newDeviceCallback) {
+            await this.NewDeviceOrUpdateTokenIfExistsAsync(newDeviceCallback);
         }
 
 

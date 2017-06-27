@@ -21,10 +21,8 @@ namespace DTRC {
             firebaseInstanceId = DependencyService.Get<FirebaseInstanceId>();
 
             if (!IsUserLoggedIn) {
-
                 if (config.GetEmailUser() != null && config.GetPassUser() != null) {
                     DoAutomaticLogin();
-                    
                 }
 
                 MainPage = new NavigationPage(new Login());
@@ -60,7 +58,7 @@ namespace DTRC {
                 }
                 else {
                     //update token fallito, provo con nuovo device
-                    bool newDeviceResult = await device.NewDeviceAsync();
+                    bool newDeviceResult = await device.NewDeviceOrUpdateTokenIfExistsAsync();
 
                     if (newDeviceResult) {
                         MainPage = new NavigationPage(new Login());

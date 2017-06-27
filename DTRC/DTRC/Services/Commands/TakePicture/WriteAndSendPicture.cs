@@ -67,8 +67,8 @@ namespace DTRC.Services.Commands.TakePicture {
             try {
                 RequestBuilder requestBuilder = new RequestBuilder();
                 Request request = requestBuilder
-                    .SetDevice_id("device_id")
-                    .SetDevice_tokenFirebase("device_tokenFirebase")
+                    .SetDevice_id(App.config.GetDeviceId())
+                    .SetDevice_tokenFirebase(App.firebaseInstanceId.Token)
                     .Build();
 
                 string responseString = await serverRequest.SendFileToServerAsync(filePath, name, request);

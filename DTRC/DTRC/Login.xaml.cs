@@ -41,13 +41,11 @@ namespace DTRC {
                     User = user
                 };
 
-                bool newDeviceResult = await device.NewDeviceAsync();
-                
+                bool newDeviceResult = await device.NewDeviceOrUpdateTokenIfExistsAsync();
                 if (!newDeviceResult) {
                     await DisplayAlert("Error", 
                         string.Format("", device.LastErrorMessage), "OK");
                 }
-
 
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
