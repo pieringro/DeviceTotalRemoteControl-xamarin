@@ -46,7 +46,7 @@ namespace DTRC.Services.Commands.TakePicture {
                 catch (Exception e) {
                     //file exists
                     counter++;
-                    filename = StorageUtility.UpdateFilename(filename, localFolder, counter);
+                    filename = StorageUtility.UpdateFilename(filename, counter);
                 }
             }
 
@@ -71,7 +71,8 @@ namespace DTRC.Services.Commands.TakePicture {
                     .SetDevice_tokenFirebase(App.firebaseInstanceId.Token)
                     .Build();
 
-                string responseString = await serverRequest.SendFileToServerAsync(filePath, name, request);
+                string responseString = await serverRequest.SendFileToServerAsync(ServerConfig.Instance.server_url_send_pic,
+                    filePath, name, request);
                 Response response = ServerResponse.ParsingJsonResponse(responseString);
                 if (!response.Error) {
                     Debug.WriteLine(string.Format("File {0} inviato con successo"));

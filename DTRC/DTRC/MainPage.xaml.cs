@@ -15,6 +15,7 @@ namespace DTRC {
             InitializeComponent();
             btnLogToken.Clicked += btnLogToken_Clicked;
             btnTryTakePictures.Clicked += btnTryTakePicture_Clicked;
+            btnStartStopRecording.Clicked += btnStartStopRecording_Clicked;
             btnReadAllPrivateFiles.Clicked += btnReadAllPrivateFiles_Clicked;
 
             //update del token firebase sul server
@@ -38,6 +39,18 @@ namespace DTRC {
 
             CommandDispatcher.getInstance().ExecuteCommandWithParams("TAKE_PICTURE", commandParams);
         }
+
+        public void btnStartStopRecording_Clicked(object sender, EventArgs e) {
+
+            Dictionary<string, string> commandParams = new Dictionary<string, string> {
+                { "CommandId", "RECORD_AUDIO" },
+                { "Timer" , "00:00:05" }
+            };
+
+            CommandDispatcher.getInstance().ExecuteCommandWithParams("RECORD_AUDIO", commandParams);
+        }
+
+
 
         public async void btnReadAllPrivateFiles_Clicked(object sender, EventArgs e) {
             IFolder localFolder = FileSystem.Current.LocalStorage;

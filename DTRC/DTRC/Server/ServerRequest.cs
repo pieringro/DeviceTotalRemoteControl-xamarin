@@ -75,12 +75,16 @@ namespace DTRC.Server {
     public class ServerRequest {
 
         public ServerRequest() {
-            httpClient = new HttpClient();
+            InitHttpClient();
         }
 
         private Request request;
         private string JsonRequest;
         private HttpClient httpClient;
+
+        private void InitHttpClient() {
+            httpClient = new HttpClient();
+        }
 
         private void ConvertRequestToJson(Request request) {
             JsonSerializerSettings settings = new JsonSerializerSettings();
@@ -90,9 +94,10 @@ namespace DTRC.Server {
 
         public delegate void CallbackOnFinished(string serverResponse);
 
-        public async Task<string> SendFileToServerAsync(string filePath, string name,
+        public async Task<string> SendFileToServerAsync(string url, string filePath, string name,
             Request request, CallbackOnFinished callbackOnFinish = null) {
 
+            InitHttpClient();
             this.ConvertRequestToJson(request);
             MultipartFormDataContent form = new MultipartFormDataContent();
 
@@ -103,7 +108,8 @@ namespace DTRC.Server {
             form.Add(new StringContent(JsonRequest), "data");
             form.Add(new ByteArrayContent(fileToSendBytesArray, 0, fileToSendBytesArray.Length),
                 name, filePath);
-            HttpResponseMessage response = await httpClient.PostAsync(ServerConfig.Instance.server_url_send_pic, form);
+            Debug.WriteLine("Sending json : "+JsonRequest);
+            HttpResponseMessage response = await httpClient.PostAsync(url, form);
 
             response.EnsureSuccessStatusCode();
             httpClient.Dispose();
@@ -120,11 +126,13 @@ namespace DTRC.Server {
         public async Task<string> SendDataToServerAsync(string url, 
             Request request, CallbackOnFinished callbackOnFinish = null) {
 
+            InitHttpClient();
             this.ConvertRequestToJson(request);
             List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>> {
                 new KeyValuePair<string, string>("data", JsonRequest)
             };
             FormUrlEncodedContent content = new FormUrlEncodedContent(pairs);
+            Debug.WriteLine("Sending json : " + JsonRequest);
             HttpResponseMessage response = await httpClient.PostAsync(url, content);
             response.EnsureSuccessStatusCode();
             string serverResponse = response.Content.ReadAsStringAsync().Result;

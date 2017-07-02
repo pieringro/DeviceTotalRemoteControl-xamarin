@@ -21,6 +21,7 @@ namespace DTRC.Server {
             server_url                  = ConfigurationManager.AppSettings["server_url"];
             server_url_send_json_data   = server_url + ConfigurationManager.AppSettings["server_url_send_json_data"];
             server_url_send_pic         = server_url + ConfigurationManager.AppSettings["server_url_send_pic"];
+            server_url_send_audio         = server_url + ConfigurationManager.AppSettings["server_url_send_audio"];
             server_url_update_token     = server_url + ConfigurationManager.AppSettings["server_url_update_token"];
             server_url_login            = server_url + ConfigurationManager.AppSettings["server_url_login"];
             server_url_new_device       = server_url + ConfigurationManager.AppSettings["server_url_new_device"];
@@ -30,6 +31,7 @@ namespace DTRC.Server {
         public string server_url;
         public string server_url_send_json_data;
         public string server_url_send_pic;
+        public string server_url_send_audio;
         public string server_url_update_token;
         public string server_url_login;
         public string server_url_new_device;

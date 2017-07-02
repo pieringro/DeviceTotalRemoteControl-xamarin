@@ -240,6 +240,8 @@
     <Compile Include="Services\Commands\PlayBeepCommand.cs" />
     <Compile Include="Services\Commands\CameraStreaming\MyCameraPreviewCallback.cs" />
     <Compile Include="Services\Commands\CameraStreaming\MySurfaceHolderCallback.cs" />
+    <Compile Include="Services\Commands\RecordAudioCommand.cs" />
+    <Compile Include="Services\Commands\RecordAudio\RecordAudioClass.cs" />
     <Compile Include="Services\Commands\TakePictureCommand.cs" />
     <Compile Include="Services\MyFirebaseInstanceIdInternalReceiver.cs" />
     <Compile Include="Services\MyFirebaseMessagingService.cs" />

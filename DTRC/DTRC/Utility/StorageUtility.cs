@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using PCLStorage;
 using System.IO;
+using System.Diagnostics;
 
 namespace DTRC.Utility {
     public static class StorageUtility {
 
         private static string FILENAME_NUMBER_SEPARATOR = "_";
-        public static string UpdateFilename(string filename, IFolder rootFolder, int? counter) {
+        public static string UpdateFilename(string filename, int? counter) {
             //rimuovo l'estensione nel filename se presente
             if (filename.Contains(".")) {
                 filename = filename.Substring(0, filename.IndexOf('.'));
@@ -39,6 +40,23 @@ namespace DTRC.Utility {
             return false;
         }
 
+        public static async Task<bool> IsFileExistAsync(this string folderFileName, string rootFolderName = null) {
+            IFolder folder = null;
+            if (rootFolderName == null) {
+                folder = FileSystem.Current.LocalStorage;
+            }
+            else {
+                folder = await FileSystem.Current.LocalStorage.CreateFolderAsync(rootFolderName,
+                   CreationCollisionOption.OpenIfExists);
+            }
+            ExistenceCheckResult folderexist = await folder.CheckExistsAsync(folderFileName);
+            // already run at least once, don't overwrite what's there  
+            if (folderexist == ExistenceCheckResult.FileExists) {
+                return true;
+            }
+            return false;
+        }
+
         public static byte[] ConvertStreamInBytesArray(Stream sourceStream) {
             using (var memoryStream = new MemoryStream()) {
                 sourceStream.CopyTo(memoryStream);
@@ -46,6 +64,43 @@ namespace DTRC.Utility {
             }
         }
 
+
+        public static async Task<bool> CreateEmptyFileLocalStorage(string filename) {
+            bool result = true;
+
+            try {
+                IFolder localFolder = FileSystem.Current.LocalStorage;
+                IFile localFile = await localFolder.CreateFileAsync(filename,
+                    CreationCollisionOption.FailIfExists);
+            } catch (Exception e) {
+                result = false;
+                Debug.WriteLine(e.StackTrace);
+            }
+
+            return result;
+        }
+
+        public static async Task<bool> CreateEmptyFileInFolder(string folderName, string filename) {
+            bool result = true;
+
+            try {
+                IFolder localFolder = FileSystem.Current.LocalStorage;
+                localFolder = await localFolder.CreateFolderAsync(folderName, 
+                    CreationCollisionOption.OpenIfExists);
+                IFile localFile = await localFolder.CreateFileAsync(filename,
+                    CreationCollisionOption.FailIfExists);
+            }
+            catch (Exception e) {
+                result = false;
+                Debug.WriteLine(e.StackTrace);
+            }
+
+            return result;
+        }
+
+        public static string GetAppLocalPath() {
+            return FileSystem.Current.LocalStorage.Path;
+        }
 
 
     }

@@ -55,6 +55,7 @@
     <Compile Include="Services\Commands\APlayBeepCommand.cs" />
     <Compile Include="Services\Commands\CommandDispatcher.cs" />
     <Compile Include="Services\Commands\CommandParameter.cs" />
+    <Compile Include="Services\Commands\RecordAudio\ARecordAudioCommand.cs" />
     <Compile Include="Services\Commands\TakePicture\ATakePictureCommand.cs" />
     <Compile Include="Services\Commands\TakePicture\WriteAndSendPicture.cs" />
     <Compile Include="SignUpPage.xaml.cs">

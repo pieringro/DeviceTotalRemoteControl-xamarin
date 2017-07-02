@@ -30,6 +30,8 @@ namespace DTRC.Services.Commands
                     APlayBeepCommand.Id, DependencyService.Get<APlayBeepCommand>());
                 matchingCommands.Add(
                     ATakePictureCommand.Id, DependencyService.Get<ATakePictureCommand>());
+                matchingCommands.Add(
+                    ARecordAudioCommand.Id, DependencyService.Get<ARecordAudioCommand>());
             }
         }
 
