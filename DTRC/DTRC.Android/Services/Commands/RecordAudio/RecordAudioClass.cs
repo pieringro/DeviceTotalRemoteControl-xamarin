@@ -30,7 +30,7 @@ namespace DTRC.Droid.Services.Commands.RecordAudio {
                 _recorder.SetAudioSource(AudioSource.Mic);
                 _recorder.SetOutputFormat(OutputFormat.ThreeGpp);
                 _recorder.SetAudioEncoder(AudioEncoder.AmrNb);
-                _recorder.SetOutputFile(StorageUtility.GetAppLocalPath()+"/"+pathFile);
+                _recorder.SetOutputFile(pathFile);
                 _recorder.Prepare();
                 _recorder.Start();
             } catch(Exception ex) {

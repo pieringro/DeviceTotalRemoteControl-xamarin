@@ -15,7 +15,7 @@ using DTRC.Server;
 [assembly: Xamarin.Forms.Dependency(typeof(RecordAudioCommand))]
 namespace DTRC.Droid.Services.Commands {
     public class RecordAudioCommand : ARecordAudioCommand {
-        private delegate void Callback(bool result, string message);
+        private delegate void Callback(bool result, string message, string path = null);
 
         private RecordAudioClass _recorder;
         private double millisecondsToRecord = 0;
@@ -47,10 +47,11 @@ namespace DTRC.Droid.Services.Commands {
             bool result = true;
 
             if (millisecondsToRecord > 0) {
-                StartRecording((startResult, message) => {
+                StartRecording((startResult, message, currentFilePath) => {
                     if (startResult && message == null) {
                         Thread.Sleep((int)millisecondsToRecord);
                         StopRecording(out message);
+                        SendFileAudioToServer(currentFilePath, "file");
                     }
                     else {
                         Debug.WriteLine(string.Format("Unable to start recording. Message : {0}", message));
@@ -78,22 +79,19 @@ namespace DTRC.Droid.Services.Commands {
                 fileExists = await StorageUtility.IsFileExistAsync(audioFileName, localFolderName);
             }
 
-            if (result) {
-                result = await StorageUtility.CreateEmptyFileInFolder(localFolderName, audioFileName);
-            }
+            string currentFilePath = StorageUtility.GetAppLocalPath() + "/" + localFolderName + "/" + audioFileName;
 
-            if (result) {
-                result = _recorder.StartRecording(localFolderName+"/"+audioFileName, out message);
-            }
+            result = result && await StorageUtility.CreateEmptyFileInFolder(localFolderName, audioFileName);
 
-            callback?.Invoke(result, message);
+            result = result && _recorder.StartRecording(currentFilePath, out message);
+            
+
+            callback?.Invoke(result, message, currentFilePath);
         }
 
         private void StopRecording(out string message) {
             _recorder.StopRecording(out message);
             _recorder.EndRecording();
-
-
         }
 
 
@@ -113,7 +111,7 @@ namespace DTRC.Droid.Services.Commands {
                     filePath, name, request);
                 Response response = ServerResponse.ParsingJsonResponse(responseString);
                 if (!response.Error) {
-                    Debug.WriteLine(string.Format("File {0} inviato con successo"));
+                    Debug.WriteLine(string.Format("File {0} inviato con successo"), filePath);
                 }
                 else {
                     Debug.WriteLine(
