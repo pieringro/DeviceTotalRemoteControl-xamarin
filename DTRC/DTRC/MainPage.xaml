@@ -7,11 +7,15 @@
     <StackLayout>
     
 	    <Label Text="Welcome to Xamarin Forms!" 
+               Margin="0,0,0,0"
                VerticalOptions="Center" 
                HorizontalOptions="Center" />
 
+        
+        
         <Button WidthRequest="100"
                 HeightRequest="50"
+                IsVisible="{Binding Path=IsDebugging}"
                 Margin="0,10,0,0"
                 x:Name="btnLogToken"
                 Text="Log Token" 
@@ -20,6 +24,7 @@
 
         <Button WidthRequest="100"
                 HeightRequest="50"
+                IsVisible="{Binding Path=IsDebugging}"
                 Margin="0,10,0,0"
                 x:Name="btnTryTakePictures"
                 Text="Prova a scattare foto" 
@@ -28,6 +33,7 @@
         
         <Button WidthRequest="100"
                 HeightRequest="50"
+                IsVisible="{Binding Path=IsDebugging}"
                 Margin="0,10,0,0"
                 x:Name="btnStartStopRecording"
                 Text="Start and stop audio recording" 
@@ -36,6 +42,7 @@
         
         <Button WidthRequest="100"
                 HeightRequest="50"
+                IsVisible="{Binding Path=IsDebugging}"
                 Margin="0,10,0,0"
                 x:Name="btnReadAllPrivateFiles"
                 Text="Read private files" 

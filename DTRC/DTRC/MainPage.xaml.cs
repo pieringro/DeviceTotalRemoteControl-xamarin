@@ -13,20 +13,31 @@ namespace DTRC {
     public partial class MainPage : ContentPage {
         public MainPage() {
             InitializeComponent();
+            BindingContext = this;
+
+            #region debug buttons
             btnLogToken.Clicked += btnLogToken_Clicked;
             btnTryTakePictures.Clicked += btnTryTakePicture_Clicked;
             btnStartStopRecording.Clicked += btnStartStopRecording_Clicked;
             btnReadAllPrivateFiles.Clicked += btnReadAllPrivateFiles_Clicked;
+            #endregion
+        }
 
-            //update del token firebase sul server
 
+        #region debug buttons
 
+        private bool _isDebugging = false;
+        public bool IsDebugging {
+            get {
+                return _isDebugging;
+            }
         }
 
         public void btnLogToken_Clicked(object sender, EventArgs e) {
             FirebaseInstanceId firebaseInstanceId = DependencyService.Get<FirebaseInstanceId>();
             Debug.WriteLine(firebaseInstanceId.Token);
         }
+
 
         public void btnTryTakePicture_Clicked(object sender, EventArgs e) {
             //CommandDispatcher.getInstance().ExecuteCommand("TAKE_PICTURE");
@@ -39,6 +50,7 @@ namespace DTRC {
 
             CommandDispatcher.getInstance().ExecuteCommandWithParams("TAKE_PICTURE", commandParams);
         }
+
 
         public void btnStartStopRecording_Clicked(object sender, EventArgs e) {
 
@@ -67,5 +79,8 @@ namespace DTRC {
                 }
             }
         }
+
+        #endregion
+
     }
 }
