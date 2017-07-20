@@ -18,7 +18,13 @@ namespace DTRC.Droid.Services.Commands.RecordAudio {
         
 
         public RecordAudioClass() {
-            _recorder = new MediaRecorder();
+            InitRecorder();
+        }
+
+        private void InitRecorder() {
+            if (_recorder == null) {
+                _recorder = new MediaRecorder();
+            }
         }
 
 
@@ -27,6 +33,8 @@ namespace DTRC.Droid.Services.Commands.RecordAudio {
             message = null;
 
             try {
+                InitRecorder();
+                
                 _recorder.SetAudioSource(AudioSource.Mic);
                 _recorder.SetOutputFormat(OutputFormat.ThreeGpp);
                 _recorder.SetAudioEncoder(AudioEncoder.AmrNb);

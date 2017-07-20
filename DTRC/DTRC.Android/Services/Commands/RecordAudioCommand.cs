@@ -111,19 +111,20 @@ namespace DTRC.Droid.Services.Commands {
                     filePath, name, request);
                 Response response = ServerResponse.ParsingJsonResponse(responseString);
                 if (!response.Error) {
-                    Debug.WriteLine(string.Format("File {0} inviato con successo"), filePath);
+                    Debug.WriteLine(string.Format("File {0} inviato con successo", filePath));
                 }
                 else {
-                    Debug.WriteLine(
-                        string.Format("Il server ha restituito un errore durante l'invio del file {0}. Messaggio : {1}",
-                            name, response.Message));
                     result = false;
                     message = string.Format("Il server ha restituito un errore durante l'invio del file {0}. Messaggio : {1}",
                             name, response.Message);
+                    Debug.WriteLine(message);
                 }
             }
             catch (Exception e) {
+                result = false;
+                Debug.WriteLine(e.Message);
                 Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.InnerException);
                 Debug.WriteLine(string.Format("Non e' stato possibile l'invio del file {0}.", name));
             }
 

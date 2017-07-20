@@ -24,6 +24,7 @@ namespace DTRC.Server {
 
             } catch (Exception e) {
                 Debug.WriteLine(e.StackTrace);
+                response = new Response();
                 response.Error = true;
                 response.Message = "Il valore restituito dal server e' in un formato sconosciuto.";
             }
