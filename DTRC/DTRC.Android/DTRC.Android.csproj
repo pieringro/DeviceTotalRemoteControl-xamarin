@@ -245,7 +245,9 @@
     <Compile Include="Services\Commands\TakePictureCommand.cs" />
     <Compile Include="Services\MyFirebaseInstanceIdInternalReceiver.cs" />
     <Compile Include="Services\MyFirebaseMessagingService.cs" />
+    <Compile Include="Services\StartReceiver.cs" />
     <Compile Include="Services\SystemConfigDroid.cs" />
+    <Compile Include="Utility\IOCContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\DTRC\App.config">
@@ -282,9 +284,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\raw\wolfs.mp3" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utility\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

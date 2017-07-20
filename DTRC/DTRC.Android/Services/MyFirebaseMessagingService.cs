@@ -12,6 +12,11 @@ namespace DTRC.Services {
     public class MyFirebaseMessagingService : FirebaseMessagingService {
         const string TAG = "MyFirebaseMsgService";
 
+        public override void OnCreate() {
+            base.OnCreate();
+            DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+        }
+
         /**
          * Called when message is received.
          */

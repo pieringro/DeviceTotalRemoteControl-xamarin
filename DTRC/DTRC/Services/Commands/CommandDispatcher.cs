@@ -26,12 +26,19 @@ namespace DTRC.Services.Commands
             if (matchingCommands == null || matchingCommands.Count == 0) {
                 matchingCommands = new Dictionary<string, ACommand>();
 
+//                matchingCommands.Add(
+//                    APlayBeepCommand.Id, DependencyService.Get<APlayBeepCommand>());
+//                matchingCommands.Add(
+//                    ATakePictureCommand.Id, DependencyService.Get<ATakePictureCommand>());
+//                matchingCommands.Add(
+//                    ARecordAudioCommand.Id, DependencyService.Get<ARecordAudioCommand>());
+
                 matchingCommands.Add(
-                    APlayBeepCommand.Id, DependencyService.Get<APlayBeepCommand>());
+                    APlayBeepCommand.Id, XLabs.Ioc.Resolver.Resolve<APlayBeepCommand>());
                 matchingCommands.Add(
-                    ATakePictureCommand.Id, DependencyService.Get<ATakePictureCommand>());
+                    ATakePictureCommand.Id, XLabs.Ioc.Resolver.Resolve<ATakePictureCommand>());
                 matchingCommands.Add(
-                    ARecordAudioCommand.Id, DependencyService.Get<ARecordAudioCommand>());
+                    ARecordAudioCommand.Id, XLabs.Ioc.Resolver.Resolve<ARecordAudioCommand>());
             }
         }
 

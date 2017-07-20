@@ -14,9 +14,14 @@ namespace DTRC.Services
 
         public MyFirebaseInstanceIdInternalReceiver() : base(){
             Debug.WriteLine("Constructor", TAG);
-            config = Xamarin.Forms.DependencyService.Get<SystemConfig>();
+            //config = Xamarin.Forms.DependencyService.Get<SystemConfig>();
+            config = XLabs.Ioc.Resolver.Resolve<SystemConfig>();
         }
 
+        public override void OnCreate() {
+            base.OnCreate();
+            DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+        }
 
         public override void OnTokenRefresh() {
             string refreshedToken = Firebase.Iid.FirebaseInstanceId.Instance.Token;

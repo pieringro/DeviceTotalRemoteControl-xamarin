@@ -16,6 +16,8 @@ using PCLAppConfig;
 using DTRC.Droid.Services.Commands;
 using Plugin.SecureStorage;
 using DTRC.Services;
+using DTRC.Droid.Services;
+using DTRC.Services.Commands;
 
 namespace DTRC.Droid {
     [Activity(Label = "DTRC", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -26,14 +28,9 @@ namespace DTRC.Droid {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
-            
-            if (!Resolver.IsSet) { 
-                var container = new SimpleContainer();
-                container.Register<IDevice>(t => AndroidDevice.CurrentDevice);
-                container.Register<IMediaPicker, MediaPicker>();
-                Resolver.SetResolver(container.GetResolver());  // Resolving the services 
-            }
 
+            DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+            
             
             global::Xamarin.Forms.Forms.Init(this, bundle);
             try {
