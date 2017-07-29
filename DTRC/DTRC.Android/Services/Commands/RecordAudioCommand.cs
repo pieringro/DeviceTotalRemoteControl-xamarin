@@ -18,6 +18,7 @@ namespace DTRC.Droid.Services.Commands {
         private delegate void Callback(bool result, string message, string path = null);
 
         private RecordAudioClass _recorder;
+        private ServerSendFile _serverSendFile;
         private double millisecondsToRecord = 0;
 
         private const string localFolderName = "AudioRecorded";
@@ -25,6 +26,7 @@ namespace DTRC.Droid.Services.Commands {
 
         public RecordAudioCommand() {
             _recorder = new RecordAudioClass();
+            _serverSendFile = new ServerSendFile();
         }
 
 
@@ -95,40 +97,11 @@ namespace DTRC.Droid.Services.Commands {
         }
 
 
-        private async void SendFileAudioToServer(string filePath, string name, Callback callback = null) {
-            bool result = true;
-            string message = null;
-            try {
-                ServerRequest serverRequest = new ServerRequest();
+        private async void SendFileAudioToServer(string filePath, string name, ServerSendFileCallback callback = null) {
 
-                RequestBuilder requestBuilder = new RequestBuilder();
-                Request request = requestBuilder
-                    .SetDevice_id(App.config.GetDeviceId())
-                    .SetDevice_tokenFirebase(App.firebaseInstanceId.Token)
-                    .Build();
-
-                string responseString = await serverRequest.SendFileToServerAsync(ServerConfig.Instance.server_url_send_audio,
-                    filePath, name, request);
-                Response response = ServerResponse.ParsingJsonResponse(responseString);
-                if (!response.Error) {
-                    Debug.WriteLine(string.Format("File {0} inviato con successo", filePath));
-                }
-                else {
-                    result = false;
-                    message = string.Format("Il server ha restituito un errore durante l'invio del file {0}. Messaggio : {1}",
-                            name, response.Message);
-                    Debug.WriteLine(message);
-                }
-            }
-            catch (Exception e) {
-                result = false;
-                Debug.WriteLine(e.Message);
-                Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine(e.InnerException);
-                Debug.WriteLine(string.Format("Non e' stato possibile l'invio del file {0}.", name));
-            }
-
-            callback?.Invoke(result, message);
+            bool result = await _serverSendFile.SendFileAudioToServer(ServerConfig.Instance.server_url_send_audio,
+                filePath, name, callback);
+            
         }
 
     }
