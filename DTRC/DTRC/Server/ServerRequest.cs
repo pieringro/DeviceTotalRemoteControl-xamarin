@@ -25,6 +25,8 @@ namespace DTRC.Server {
 
         public string email;
         public string pass;
+
+        public string length;
     }
 
     #region Request Builder
@@ -59,6 +61,12 @@ namespace DTRC.Server {
         public RequestBuilder SetPass(string pass) {
             this.InitRequest();
             request.pass = pass;
+            return this;
+        }
+
+        public RequestBuilder SetLength(string length) {
+            this.InitRequest();
+            request.length = length;
             return this;
         }
 

@@ -7,26 +7,33 @@ using System.Diagnostics;
 
 namespace DTRC.Server {
     public class ServerSendFile {
-        
 
-        public async Task<bool> SendFileAudioToServer(string serverUrl, string filePath, string name, 
+        public Request request { get; set; }
+
+        public async Task<bool> SendGenericFileToServer(string serverUrl, string filePath, string name, 
             ServerSendFileCallback callback = null) {
             bool result = true;
             string message = null;
             try {
                 ServerRequest serverRequest = new ServerRequest();
 
-                RequestBuilder requestBuilder = new RequestBuilder();
-                Request request = requestBuilder
-                    .SetDevice_id(App.config.GetDeviceId())
-                    .SetDevice_tokenFirebase(App.firebaseInstanceId.Token)
-                    .Build();
+                if (request == null) {
+                    RequestBuilder requestBuilder = new RequestBuilder();
+                    request = requestBuilder
+                        .SetDevice_id(App.config.GetDeviceId())
+                        .SetDevice_tokenFirebase(App.firebaseInstanceId.Token)
+                        .Build();
+                }
 
                 string responseString = await serverRequest.SendFileToServerAsync(serverUrl,
                     filePath, name, request);
                 Response response = ServerResponse.ParsingJsonResponse(responseString);
                 if (!response.Error) {
                     Debug.WriteLine(string.Format("File {0} inviato con successo", filePath));
+
+                    //elimino la richiesta appena eseguita
+                    request = null;
+                    //TODO elimino il file appena inviato con successo.
                     result = true;
                 }
                 else {

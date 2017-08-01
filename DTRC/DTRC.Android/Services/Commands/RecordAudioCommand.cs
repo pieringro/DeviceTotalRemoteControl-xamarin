@@ -19,6 +19,8 @@ namespace DTRC.Droid.Services.Commands {
 
         private RecordAudioClass _recorder;
         private ServerSendFile _serverSendFile;
+
+        private TimeSpan timerSpanToRecord;
         private double millisecondsToRecord = 0;
 
         private const string localFolderName = "AudioRecorded";
@@ -30,12 +32,12 @@ namespace DTRC.Droid.Services.Commands {
         }
 
 
-        public override void SetData(CommandParameter commandParams) {
+         public override void SetData(CommandParameter commandParams) {
             if (commandParams.dict.ContainsKey(TIMER_ID)) {
                 string timerStr = commandParams.dict[TIMER_ID];
                 try {
-                    TimeSpan timerSpan = TimeSpan.Parse(timerStr);
-                    millisecondsToRecord = timerSpan.TotalMilliseconds+500;
+                    timerSpanToRecord = TimeSpan.Parse(timerStr);
+                    millisecondsToRecord = timerSpanToRecord.TotalMilliseconds+500;
                 }
                 catch(Exception ex) {
                     Debug.WriteLine(string.Format("Unable to parse input param {0} in TimeSpan", timerStr));
@@ -87,7 +89,6 @@ namespace DTRC.Droid.Services.Commands {
 
             result = result && _recorder.StartRecording(currentFilePath, out message);
             
-
             callback?.Invoke(result, message, currentFilePath);
         }
 
@@ -99,9 +100,17 @@ namespace DTRC.Droid.Services.Commands {
 
         private async void SendFileAudioToServer(string filePath, string name, ServerSendFileCallback callback = null) {
 
-            bool result = await _serverSendFile.SendFileAudioToServer(ServerConfig.Instance.server_url_send_audio,
-                filePath, name, callback);
-            
+            RequestBuilder requestBuilder = new RequestBuilder();
+            requestBuilder
+                .SetDevice_id(App.config.GetDeviceId())
+                .SetDevice_tokenFirebase(App.firebaseInstanceId.Token);
+            if(timerSpanToRecord != null) {
+                requestBuilder.SetLength(timerSpanToRecord.ToString());
+            }
+            _serverSendFile.request = requestBuilder.Build();
+
+            bool result = 
+                await _serverSendFile.SendGenericFileToServer(ServerConfig.Instance.server_url_send_audio, filePath, name, callback);
         }
 
     }

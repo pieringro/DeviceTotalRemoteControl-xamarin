@@ -69,7 +69,7 @@ namespace DTRC.Services.Commands.TakePicture {
             bool result = false;
 
             result = 
-                await _serverSendFile.SendFileAudioToServer(ServerConfig.Instance.server_url_send_pic, filePath, name);
+                await _serverSendFile.SendGenericFileToServer(ServerConfig.Instance.server_url_send_pic, filePath, name);
 
             return result;
 
