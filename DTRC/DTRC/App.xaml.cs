@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 using Xamarin.Forms;
 
@@ -22,10 +23,10 @@ namespace DTRC {
 
             if (!IsUserLoggedIn) {
                 if (config.GetEmailUser() != null && config.GetPassUser() != null) {
+                    MainPage = new WaitingPage();
+                    
                     DoAutomaticLogin();
                 }
-
-                MainPage = new NavigationPage(new Login());
             }
             else {
                 MainPage = new MainPage();
@@ -38,7 +39,7 @@ namespace DTRC {
                 Email = config.GetEmailUser(),
                 Pass = config.GetPassUser()
             };
-
+            await System.Threading.Tasks.Task.Delay(10000);
             bool loginResult = await user.LoginAsync();
 
             if (loginResult) {

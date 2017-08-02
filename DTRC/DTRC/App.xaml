@@ -2,9 +2,24 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DTRC.App">
-	<Application.Resources>
+    <Application.Resources>
 
-		<!-- Application resource dictionary -->
+        <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <x:String x:Key="welcome_service_ready">
+                Servizio attivo in attesa di comandi remoti
+            </x:String>
+
+            <x:String x:Key="loading">
+                Caricamento in corso...
+            </x:String>
+
+            <x:String x:Key="welcome_username">
+                Utente riconisciuto : {0}
+            </x:String>
+            
+        </ResourceDictionary>
+        
 
 	</Application.Resources>
 </Application>

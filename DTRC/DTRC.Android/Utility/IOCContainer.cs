@@ -27,7 +27,6 @@ namespace DTRC.Droid.Utility {
                 container.Register<DTRC.Services.Commands.ARecordAudioCommand, DTRC.Droid.Services.Commands.RecordAudioCommand>();
                 Resolver.SetResolver(container.GetResolver());
             }
-
         }
 
     }

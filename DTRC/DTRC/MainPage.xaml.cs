@@ -8,24 +8,54 @@ using DTRC.Data;
 using System.Diagnostics;
 using DTRC.Services.Commands;
 using PCLStorage;
+using DTRC.Services;
 
 namespace DTRC {
     public partial class MainPage : ContentPage {
+
+        private SystemConfig config;
+
         public MainPage() {
             InitializeComponent();
             BindingContext = this;
+            Debug.WriteLine(Application.Current.Resources["welcome_service_ready"]);
+
+            if (config == null) {
+                config = DependencyService.Get<SystemConfig>();
+            }
 
             #region debug buttons
+            if (IsDebugging) {
+                InitDebugButtons();
+            }
+            #endregion
+        }
+        
+        public string WelcomeServiceReady {
+            get {
+                return Application.Current.Resources["welcome_service_ready"].ToString();
+            }
+        }
+
+        public string WelcomeUsername {
+            get {
+                if (config == null) {
+                    config = DependencyService.Get<SystemConfig>();
+                }
+                return string.Format(Application.Current.Resources["welcome_username"].ToString(),
+                    config.GetEmailUser());
+            }
+        }
+
+        #region debug buttons
+
+        private void InitDebugButtons() {
             btnLogToken.Clicked += btnLogToken_Clicked;
             btnTryTakePictures.Clicked += btnTryTakePicture_Clicked;
             btnStartStopRecording.Clicked += btnStartStopRecording_Clicked;
             btnReadAllPrivateFiles.Clicked += btnReadAllPrivateFiles_Clicked;
-            #endregion
         }
-
-
-        #region debug buttons
-
+        
         private bool _isDebugging = false;
         public bool IsDebugging {
             get {
@@ -37,8 +67,7 @@ namespace DTRC {
             FirebaseInstanceId firebaseInstanceId = DependencyService.Get<FirebaseInstanceId>();
             Debug.WriteLine(firebaseInstanceId.Token);
         }
-
-
+        
         public void btnTryTakePicture_Clicked(object sender, EventArgs e) {
             //CommandDispatcher.getInstance().ExecuteCommand("TAKE_PICTURE");
 
@@ -50,8 +79,7 @@ namespace DTRC {
 
             CommandDispatcher.getInstance().ExecuteCommandWithParams("TAKE_PICTURE", commandParams);
         }
-
-
+        
         public void btnStartStopRecording_Clicked(object sender, EventArgs e) {
 
             Dictionary<string, string> commandParams = new Dictionary<string, string> {
@@ -61,9 +89,7 @@ namespace DTRC {
 
             CommandDispatcher.getInstance().ExecuteCommandWithParams("RECORD_AUDIO", commandParams);
         }
-
-
-
+        
         public async void btnReadAllPrivateFiles_Clicked(object sender, EventArgs e) {
             IFolder localFolder = FileSystem.Current.LocalStorage;
             IList<IFile> files = await localFolder.GetFilesAsync();

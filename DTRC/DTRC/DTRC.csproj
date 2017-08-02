@@ -65,6 +65,9 @@
     </Compile>
     <Compile Include="Utility\StorageUtility.cs" />
     <Compile Include="Services\SystemConfig.cs" />
+    <Compile Include="WaitingPage.xaml.cs">
+      <DependentUpon>WaitingPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
@@ -183,6 +186,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SignUpPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WaitingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
