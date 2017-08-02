@@ -3,6 +3,7 @@ using PCLAppConfig;
 using PCLAppConfig.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,11 @@ using Xamarin.Forms.Xaml;
 
 namespace DTRC {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Login : ContentPage {
+    public partial class Login : ContentPage , INotifyPropertyChanged {
         public Login() {
             InitializeComponent();
+            IsWaiting = false;
+            BindingContext = this;
         }
 
         async void OnSignUpButtonClicked(object sender, EventArgs e) {
@@ -23,11 +26,13 @@ namespace DTRC {
         }
 
         async void OnLoginButtonClicked(object sender, EventArgs e) {
+            IsWaiting = true;
+
             UserEntity user = new UserEntity {
                 Email = usernameEntry.Text,
                 Pass = passwordEntry.Text
             };
-
+            
             bool loginResult = await user.LoginAsync();
 
             if (loginResult) {
@@ -58,6 +63,31 @@ namespace DTRC {
                     Debug.WriteLine("Error, unable to clear data storage");
                 }
             }
+            IsWaiting = false;
         }
+
+
+        private bool _isWaiting;
+        public bool IsWaiting {
+            get {
+                return _isWaiting;
+            }
+            set {
+                _isWaiting = value;
+                RaisePropertyChanged("IsWaiting");
+            }
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void RaisePropertyChanged(string propName) {
+            if (PropertyChanged != null) {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+
+
     }
 }

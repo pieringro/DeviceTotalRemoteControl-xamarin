@@ -13,15 +13,11 @@ namespace DTRC {
         public WaitingPage() {
             InitializeComponent();
         }
-
-
-
+        
         public string Loading {
             get{
                 return Application.Current.Resources["loading"].ToString();
             }
         }
-
-
     }
 }

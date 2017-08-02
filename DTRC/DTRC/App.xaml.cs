@@ -27,6 +27,9 @@ namespace DTRC {
                     
                     DoAutomaticLogin();
                 }
+                else {
+                    MainPage = new NavigationPage(new Login());
+                }
             }
             else {
                 MainPage = new MainPage();
