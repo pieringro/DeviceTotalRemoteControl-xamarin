@@ -33,7 +33,6 @@ namespace DTRC.Server {
 
                     //elimino la richiesta appena eseguita
                     request = null;
-                    //TODO elimino il file appena inviato con successo.
                     result = true;
                 }
                 else {

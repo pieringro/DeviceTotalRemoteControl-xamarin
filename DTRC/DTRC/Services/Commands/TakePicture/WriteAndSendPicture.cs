@@ -57,9 +57,13 @@ namespace DTRC.Services.Commands.TakePicture {
                 imageStream.CopyTo(stream);
                 stream.Flush();
             }
-
+            
             bool sendingResult = await SendFilePicToServer(localFile.Path, "file");
 
+            if (sendingResult) {
+                await localFile.DeleteAsync();
+            }
+            
             //chiamare la callback operazione conclusa
             callbackOnFinished();
         }
@@ -72,7 +76,6 @@ namespace DTRC.Services.Commands.TakePicture {
                 await _serverSendFile.SendGenericFileToServer(ServerConfig.Instance.server_url_send_pic, filePath, name);
 
             return result;
-
         }
 
         

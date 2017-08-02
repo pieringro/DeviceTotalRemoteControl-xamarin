@@ -98,6 +98,44 @@ namespace DTRC.Utility {
             return result;
         }
 
+
+        public static async Task<bool> DeleteFileInFolder(string folderName, string filename) {
+            bool result = true;
+
+            try {
+                IFolder localFolder = FileSystem.Current.LocalStorage;
+                localFolder = await localFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
+                IFile localFileToDelete = await localFolder.GetFileAsync(filename);
+                if (localFileToDelete != null) {
+                    await localFileToDelete.DeleteAsync();
+                }
+            }
+            catch (Exception e) {
+                result = false;
+                Debug.WriteLine(e.StackTrace);
+            }
+
+            return result;
+        }
+
+        public static async Task<bool> DeleteFileLocalStorage(string filePath) {
+            bool result = true;
+
+            try {
+                IFolder localFolder = FileSystem.Current.LocalStorage;
+                IFile localFileToDelete = await localFolder.GetFileAsync(filePath);
+                if (localFileToDelete != null) {
+                    await localFileToDelete.DeleteAsync();
+                }
+            }
+            catch (Exception e) {
+                result = false;
+                Debug.WriteLine(e.StackTrace);
+            }
+
+            return result;
+        }
+
         public static string GetAppLocalPath() {
             return FileSystem.Current.LocalStorage.Path;
         }

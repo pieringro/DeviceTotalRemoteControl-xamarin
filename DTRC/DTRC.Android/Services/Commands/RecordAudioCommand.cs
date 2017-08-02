@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using DTRC.Services.Commands;
 using DTRC.Utility;
 
@@ -55,7 +56,7 @@ namespace DTRC.Droid.Services.Commands {
                     if (startResult && message == null) {
                         Thread.Sleep((int)millisecondsToRecord);
                         StopRecording(out message);
-                        SendFileAudioToServer(currentFilePath, "file");
+                        SendFileAudioToServerAndDelete(currentFilePath, "file");
                     }
                     else {
                         Debug.WriteLine(string.Format("Unable to start recording. Message : {0}", message));
@@ -98,7 +99,7 @@ namespace DTRC.Droid.Services.Commands {
         }
 
 
-        private async void SendFileAudioToServer(string filePath, string name, ServerSendFileCallback callback = null) {
+        private async Task<bool> SendFileAudioToServerAndDelete(string filePath, string name, ServerSendFileCallback callback = null) {
 
             RequestBuilder requestBuilder = new RequestBuilder();
             requestBuilder
@@ -111,6 +112,11 @@ namespace DTRC.Droid.Services.Commands {
 
             bool result = 
                 await _serverSendFile.SendGenericFileToServer(ServerConfig.Instance.server_url_send_audio, filePath, name, callback);
+
+            result = result && await StorageUtility.DeleteFileLocalStorage(filePath);
+            
+
+            return result;
         }
 
     }
