@@ -4,12 +4,15 @@
              x:Class="DTRC.SignUpPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
+
+            <Picker x:Name="langPicker" 
+                    HorizontalOptions="FillAndExpand"/>
+
             <Label Text="Email" />
             <Entry x:Name="emailEntry" Placeholder="email@dominio.com" />
             <Label Text="Password" />
             <Entry x:Name="passwordEntry" IsPassword="true" />
-            
+
             <Button Text="Sign Up" Clicked="OnSignUpButtonClicked" />
             <Label x:Name="messageLabel" />
         </StackLayout>

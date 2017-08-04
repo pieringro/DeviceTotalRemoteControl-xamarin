@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="Data\DeviceEntity.cs" />
     <Compile Include="Data\FirebaseInstanceId.cs" />
+    <Compile Include="Data\LangEntity.cs" />
     <Compile Include="Data\UserEntity.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>

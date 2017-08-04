@@ -25,6 +25,7 @@ namespace DTRC.Server {
 
         public string email;
         public string pass;
+        public string lang;
 
         public string length;
     }
@@ -64,6 +65,12 @@ namespace DTRC.Server {
             return this;
         }
 
+        public RequestBuilder SetLang(string lang) {
+            this.InitRequest();
+            request.lang = lang;
+            return this;
+        }
+
         public RequestBuilder SetLength(string length) {
             this.InitRequest();
             request.length = length;
@@ -86,7 +93,6 @@ namespace DTRC.Server {
             InitHttpClient();
         }
 
-        private Request request;
         private string JsonRequest;
         private HttpClient httpClient;
 

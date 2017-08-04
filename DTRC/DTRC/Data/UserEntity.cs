@@ -14,6 +14,8 @@ namespace DTRC.Data {
 
         public string Pass { get; set; }
 
+        public string Lang { get; set; }
+
         public string LastErrorMessage;
 
         public async Task<bool> LoginAsync(Callback loginCallback = null) {
@@ -70,6 +72,7 @@ namespace DTRC.Data {
             Request request = requestBuilder
                 .SetEmail(Email)
                 .SetPass(Pass)
+                .SetLang(Lang)
                 .Build();
             
             ServerRequest serverRequest = new ServerRequest();

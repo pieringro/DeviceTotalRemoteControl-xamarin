@@ -17,6 +17,7 @@ namespace DTRC.Services {
         protected string DeviceId  = null;
         protected string EmailUser = null;
         protected string PassUser  = null;
+        protected string LangUser  = null;
 
         public virtual bool ClearDataStored() {
             bool result = CrossSecureStorage.Current.DeleteKey("EmailUser");
@@ -44,6 +45,7 @@ namespace DTRC.Services {
             EmailUser = emailUser;
         }
 
+
         public string GetPassUser() {
             if (PassUser == null) {
                 //operazioni per ottenere la password memorizzata
@@ -58,6 +60,19 @@ namespace DTRC.Services {
             CrossSecureStorage.Current.SetValue("PassUser", passUser);
             PassUser = passUser;
         }
+
+
+        public string GetLangUser() {
+            if(LangUser == null) {
+                LangUser = "English";
+            }
+            return LangUser;
+        }
+
+        public void SetLangUser(string langUser) {
+            LangUser = langUser;
+        }
+
     }
 
 
