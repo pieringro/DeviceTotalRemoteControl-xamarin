@@ -93,6 +93,8 @@ namespace DTRC.Server {
             InitHttpClient();
         }
 
+        private static readonly string API_KEY = "gfju5789906t5656yjsd_@rrqr";
+
         private string JsonRequest;
         private HttpClient httpClient;
 
@@ -119,6 +121,7 @@ namespace DTRC.Server {
             Stream fileToSendStream = await fileToSend.OpenAsync(FileAccess.Read);
             byte[] fileToSendBytesArray = StorageUtility.ConvertStreamInBytesArray(fileToSendStream);
 
+            form.Add(new StringContent(API_KEY), "apikey");
             form.Add(new StringContent(JsonRequest), "data");
             form.Add(new ByteArrayContent(fileToSendBytesArray, 0, fileToSendBytesArray.Length),
                 name, filePath);
@@ -143,7 +146,8 @@ namespace DTRC.Server {
             InitHttpClient();
             this.ConvertRequestToJson(request);
             List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>> {
-                new KeyValuePair<string, string>("data", JsonRequest)
+                new KeyValuePair<string, string>("data", JsonRequest),
+                new KeyValuePair<string, string>("apikey", API_KEY)
             };
             FormUrlEncodedContent content = new FormUrlEncodedContent(pairs);
             Debug.WriteLine("Sending json : " + JsonRequest);
