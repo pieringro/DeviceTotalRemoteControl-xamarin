@@ -32,22 +32,24 @@ namespace DTRC.Services
 
         private void UpdateTokenToServer(string token) {
             // mi collego al mio server e comunico il token di questo dispositivo
-            Debug.WriteLine("SendRegistrationToServer("+token+") chiamata", TAG);
 
-            DeviceEntity device = new DeviceEntity {
-                DeviceId = config.GetDeviceId(),
-                DeviceToken = token,
-                User = new UserEntity { Email = config.GetEmailUser() }
-            };
-            device.UpdateToken((updateTokenResult, errorMessage) => {
-                if (updateTokenResult) {
-                    Debug.WriteLine(string.Format("Aggiornamento token avvenuto con successo"));
-                }
-                else {
-                    Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
-                        errorMessage));
-                }
-            });
+            if (config.GetEmailUser() != null) {
+                Debug.WriteLine("SendRegistrationToServer("+token+") chiamata", TAG);
+                DeviceEntity device = new DeviceEntity {
+                    DeviceId = config.GetDeviceId(),
+                    DeviceToken = token,
+                    User = new UserEntity { Email = config.GetEmailUser() }
+                };
+                device.UpdateToken((updateTokenResult, errorMessage) => {
+                    if (updateTokenResult) {
+                        Debug.WriteLine(string.Format("Aggiornamento token avvenuto con successo"));
+                    }
+                    else {
+                        Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
+                            errorMessage));
+                    }
+                });
+            }
         }
 
     }

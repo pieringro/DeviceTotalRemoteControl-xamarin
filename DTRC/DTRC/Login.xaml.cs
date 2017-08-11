@@ -48,12 +48,13 @@ namespace DTRC {
 
                 bool newDeviceResult = await device.NewDeviceOrUpdateTokenIfExistsAsync();
                 if (!newDeviceResult) {
-                    await DisplayAlert("Error", 
+                    await DisplayAlert("Error",
                         string.Format("", device.LastErrorMessage), "OK");
                 }
-
-                Navigation.InsertPageBefore(new MainPage(), this);
-                await Navigation.PopAsync();
+                else {
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                    await Navigation.PopAsync();
+                }
             }
             else {
                 messageLabel.Text = string.Format("Login failed. Message={0}", user.LastErrorMessage);

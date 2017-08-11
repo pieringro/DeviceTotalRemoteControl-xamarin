@@ -47,9 +47,10 @@ namespace DTRC {
                     await DisplayAlert("Error",
                         string.Format("", device.LastErrorMessage), "OK");
                 }
-                
-                Application.Current.MainPage = new MainPage();
-                await Navigation.PopToRootAsync();
+                else {
+                    Application.Current.MainPage = new MainPage();
+                    await Navigation.PopToRootAsync();
+                }
             }
             else{
                 messageLabel.Text = string.Format("Sign Up failed. Message={0}", user.LastErrorMessage);
