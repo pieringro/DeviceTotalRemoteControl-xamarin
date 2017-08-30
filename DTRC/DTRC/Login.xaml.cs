@@ -79,7 +79,13 @@ namespace DTRC {
             }
         }
 
-
+        
+        public string SignUp {
+            get {
+                return Application.Current.Resources["sign_up"].ToString();
+            }
+        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -88,7 +94,6 @@ namespace DTRC {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-
-
+        
     }
 }

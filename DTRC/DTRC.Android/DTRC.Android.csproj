@@ -58,8 +58,32 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AnswersKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Crashlytics.1.4\lib\MonoAndroid10\AnswersKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AnswersKit.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Crashlytics.1.4\lib\MonoAndroid10\AnswersKit.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrashlyticsKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Crashlytics.1.4\lib\MonoAndroid10\CrashlyticsKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrashlyticsKit.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Crashlytics.1.4\lib\MonoAndroid10\CrashlyticsKit.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ExifLib, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FabricSdk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Fabric.1.4\lib\MonoAndroid10\FabricSdk.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FabricSdk.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Fabric.1.4\lib\MonoAndroid10\FabricSdk.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -7,7 +7,7 @@
         <!-- Application resource dictionary -->
         <ResourceDictionary>
             <x:String x:Key="welcome_service_ready">
-                Servizio attivo in attesa di comandi remoti
+                Servizio attivo, in attesa di comandi remoti
             </x:String>
 
             <x:String x:Key="loading">
@@ -15,11 +15,15 @@
             </x:String>
 
             <x:String x:Key="welcome_username">
-                Utente riconisciuto : {0}
+                Utente riconosciuto : {0}
+            </x:String>
+
+            <x:String x:Key="sign_up">
+                Registrati
             </x:String>
             
         </ResourceDictionary>
-        
+
 
 	</Application.Resources>
 </Application>

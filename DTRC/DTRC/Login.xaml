@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DTRC.Login">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Sign Up" Clicked="OnSignUpButtonClicked" />
+        <ToolbarItem Text="{Binding Path=SignUp}" Clicked="OnSignUpButtonClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         
