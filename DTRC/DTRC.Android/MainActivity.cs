@@ -41,7 +41,10 @@ namespace DTRC.Droid {
 
             SecureStorageImplementation.StoragePassword = SystemConfig.STORAGE_PASSWORD;
             LoadApplication(new App());
+
             
+            FabricSdk.Initializer.Initialize(FabricSdk.Fabric.Instance, this);
+            CrashlyticsKit.Initializer.Initialize(CrashlyticsKit.Crashlytics.Instance);
 
 
             if (Intent.Extras != null) {
@@ -55,7 +58,11 @@ namespace DTRC.Droid {
 
         }
 
-
+        protected override void OnStart() {
+            base.OnStart();
+            //proviamo qui ad inizializzare a chiamare Crashlytics
+            CrashlyticsKit.Crashlytics.Instance.Crash();
+        }
 
 
         public bool IsPlayServicesAvailable() {

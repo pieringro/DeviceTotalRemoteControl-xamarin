@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-
+using CrashlyticsKit;
 using Xamarin.Forms;
 
 namespace DTRC {
@@ -78,7 +78,7 @@ namespace DTRC {
         
 
         protected override void OnStart() {
-
+            //Crashlytics.Instance.Crash();
         }
 
         protected override void OnSleep() {

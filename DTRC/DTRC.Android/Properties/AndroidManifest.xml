@@ -10,6 +10,10 @@
 				<category android:name="${applicationId}" />
 			</intent-filter>
 		</receiver>
+    <meta-data
+      android:name="io.fabric.ApiKey"
+      android:value="90b8fe1169d2510b2519456a2024e8514fd9e364"
+      />
 	</application>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CAMERA" />
