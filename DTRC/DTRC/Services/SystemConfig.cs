@@ -32,9 +32,13 @@ namespace DTRC.Services {
         /// <returns></returns>
         public string GetEmailUser() {
             if(EmailUser == null) {
-                //operazioni per ottenere l'email memorizzata
-                if (CrossSecureStorage.Current.HasKey("EmailUser")) {
-                    EmailUser = CrossSecureStorage.Current.GetValue("EmailUser");
+                try {
+                    //operazioni per ottenere l'email memorizzata
+                    if (CrossSecureStorage.Current.HasKey("EmailUser")) {
+                        EmailUser = CrossSecureStorage.Current.GetValue("EmailUser");
+                    }
+                } catch(Exception e) {
+
                 }
             }
             return EmailUser;
