@@ -33,7 +33,6 @@ namespace DTRC.Droid {
             base.OnCreate(bundle);
 
             DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(this);
-            
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             
             global::Xamarin.Forms.Forms.Init(this, bundle);

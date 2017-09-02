@@ -51,7 +51,7 @@ namespace DTRC.Data {
 
             }
             catch(Exception e) {
-                string errorMsg = "Error connecting to \"updating token\"\r\n";
+                string errorMsg = "Error connecting while \"updating token\"\r\n";
                 errorMsg += e.Message;
                 Debug.WriteLine(e.StackTrace);
 
@@ -107,7 +107,7 @@ namespace DTRC.Data {
 
             }
             catch (Exception e) {
-                string errorMsg = "Error connecting to \"Adding new device\"\r\n";
+                string errorMsg = "Error connecting while \"adding new device\"\r\n";
                 errorMsg += e.Message;
                 Debug.WriteLine(e.StackTrace);
 

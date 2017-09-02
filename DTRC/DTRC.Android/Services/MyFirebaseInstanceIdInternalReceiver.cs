@@ -36,7 +36,7 @@ namespace DTRC.Services
             // mi collego al mio server e comunico il token di questo dispositivo
 
             if (config.GetEmailUser() != null) {
-                Debug.WriteLine("SendRegistrationToServer("+token+") chiamata", TAG);
+                Debug.WriteLine(string.Format("SendRegistrationToServer({0}) chiamata", token), TAG);
                 DeviceEntity device = new DeviceEntity {
                     DeviceId = config.GetDeviceId(),
                     DeviceToken = token,

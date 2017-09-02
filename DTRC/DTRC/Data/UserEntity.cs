@@ -48,7 +48,7 @@ namespace DTRC.Data {
                 LastErrorMessage = response.Message;
             }
             catch (Exception e) {
-                string errorMsg = "Error connecting to \"" + ServerConfig.Instance.server_url_login + "\"\r\n";
+                string errorMsg = "Error connecting while \"logging in\"\r\n";
                 errorMsg += e.Message;
                 Debug.WriteLine(e.StackTrace);
 
@@ -96,7 +96,7 @@ namespace DTRC.Data {
 
             }
             catch (Exception e) {
-                string errorMsg = "Error connecting to \"" + ServerConfig.Instance.server_url_new_user + "\"\r\n";
+                string errorMsg = "Error connecting while \"adding new user\"\r\n";
                 errorMsg += e.Message;
                 Debug.WriteLine(e.StackTrace);
 
