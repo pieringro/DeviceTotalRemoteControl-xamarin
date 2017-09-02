@@ -32,6 +32,7 @@ namespace DTRC.Droid {
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
 
+            SecureStorageImplementation.StoragePassword = SystemConfig.STORAGE_PASSWORD;
             DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(this);
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             
@@ -42,7 +43,6 @@ namespace DTRC.Droid {
                 System.Diagnostics.Debug.WriteLine("ConfigurationManager exception: "+e.StackTrace);
             }
 
-            SecureStorageImplementation.StoragePassword = SystemConfig.STORAGE_PASSWORD;
             LoadApplication(new App());
             
             if (Intent.Extras != null) {
