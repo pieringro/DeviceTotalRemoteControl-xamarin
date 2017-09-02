@@ -39,6 +39,7 @@ namespace DTRC.Droid.Utility {
                 Fabric.Instance.Debug = true;
                 Fabric.Instance.Initialize(context);
                 FabricCrashlyticsReady = true;
+                System.Diagnostics.Debug.WriteLine("DTRC : InitFabricCrashlytics", "DTRC Crashlytics");
             }
         }
 

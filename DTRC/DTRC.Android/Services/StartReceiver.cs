@@ -29,7 +29,7 @@ namespace DTRC.Services {
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(Application.Context);
 
-            Bundle bundle = new Bundle();
+            //Bundle bundle = new Bundle();
             //global::Xamarin.Forms.Forms.Init(context, bundle);
             //try {
             //    ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
