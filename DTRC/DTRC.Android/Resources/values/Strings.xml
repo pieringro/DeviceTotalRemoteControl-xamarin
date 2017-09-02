@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<resources>
-  <string name="com.crashlytics.android.build_id">Metti qua il build_id</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="com.crashlytics.android.build_id">b9dda7fa-2ced-41f4-8076-bd7e137d63b2</string>
 </resources>

@@ -19,6 +19,9 @@ using DTRC.Services;
 using DTRC.Droid.Services;
 using DTRC.Services.Commands;
 
+using FabricSdk;
+using CrashlyticsKit;
+
 namespace DTRC.Droid {
     [Activity(Label = "DTRC", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
@@ -28,6 +31,12 @@ namespace DTRC.Droid {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
+
+            Crashlytics.Instance.Initialize();
+            //Digits.Instance.Initialize(TwitterKey, TwitterSecret);
+            Fabric.Instance.Debug = true;
+            Fabric.Instance.Initialize(this);
+
 
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             
@@ -41,12 +50,7 @@ namespace DTRC.Droid {
 
             SecureStorageImplementation.StoragePassword = SystemConfig.STORAGE_PASSWORD;
             LoadApplication(new App());
-
             
-            FabricSdk.Initializer.Initialize(FabricSdk.Fabric.Instance, this);
-            CrashlyticsKit.Initializer.Initialize(CrashlyticsKit.Crashlytics.Instance);
-
-
             if (Intent.Extras != null) {
                 foreach (var key in Intent.Extras.KeySet()) {
                     var value = Intent.Extras.GetString(key);
@@ -60,8 +64,6 @@ namespace DTRC.Droid {
 
         protected override void OnStart() {
             base.OnStart();
-            //proviamo qui ad inizializzare a chiamare Crashlytics
-            CrashlyticsKit.Crashlytics.Instance.Crash();
         }
 
 
