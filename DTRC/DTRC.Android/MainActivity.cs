@@ -32,14 +32,9 @@ namespace DTRC.Droid {
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
 
-            Crashlytics.Instance.Initialize();
-            //Digits.Instance.Initialize(TwitterKey, TwitterSecret);
-            Fabric.Instance.Debug = true;
-            Fabric.Instance.Initialize(this);
-
-
-            DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+            DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(this);
             
+            DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             
             global::Xamarin.Forms.Forms.Init(this, bundle);
             try {
@@ -59,7 +54,6 @@ namespace DTRC.Droid {
             }
 
             this.IsPlayServicesAvailable();
-
         }
 
         protected override void OnStart() {

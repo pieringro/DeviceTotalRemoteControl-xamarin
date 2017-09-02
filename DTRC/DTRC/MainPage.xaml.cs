@@ -49,13 +49,6 @@ namespace DTRC {
 
         #region debug buttons
 
-        private void InitDebugButtons() {
-            btnLogToken.Clicked += btnLogToken_Clicked;
-            btnTryTakePictures.Clicked += btnTryTakePicture_Clicked;
-            btnStartStopRecording.Clicked += btnStartStopRecording_Clicked;
-            btnReadAllPrivateFiles.Clicked += btnReadAllPrivateFiles_Clicked;
-        }
-        
         private bool _isDebugging = false;
         public bool IsDebugging {
             get {
@@ -63,6 +56,13 @@ namespace DTRC {
             }
         }
 
+        private void InitDebugButtons() {
+            btnLogToken.Clicked += btnLogToken_Clicked;
+            btnTryTakePictures.Clicked += btnTryTakePicture_Clicked;
+            btnStartStopRecording.Clicked += btnStartStopRecording_Clicked;
+            btnReadAllPrivateFiles.Clicked += btnReadAllPrivateFiles_Clicked;
+        }
+        
         public void btnLogToken_Clicked(object sender, EventArgs e) {
             FirebaseInstanceId firebaseInstanceId = DependencyService.Get<FirebaseInstanceId>();
             Debug.WriteLine(firebaseInstanceId.Token);

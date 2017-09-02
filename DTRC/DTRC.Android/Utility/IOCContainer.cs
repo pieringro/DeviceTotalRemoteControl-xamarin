@@ -12,6 +12,8 @@ using Android.Widget;
 using XLabs.Ioc;
 using XLabs.Platform.Device;
 using XLabs.Platform.Services.Media;
+using CrashlyticsKit;
+using FabricSdk;
 
 namespace DTRC.Droid.Utility {
     public class IOCContainer {
@@ -26,6 +28,17 @@ namespace DTRC.Droid.Utility {
                 container.Register<DTRC.Services.Commands.ATakePictureCommand, DTRC.Droid.Services.Commands.TakePictureCommand>();
                 container.Register<DTRC.Services.Commands.ARecordAudioCommand, DTRC.Droid.Services.Commands.RecordAudioCommand>();
                 Resolver.SetResolver(container.GetResolver());
+            }
+        }
+
+
+        private static bool FabricCrashlyticsReady = false;
+        public static void InitFabricCrashlytics(Context context) {
+            if (!FabricCrashlyticsReady) {
+                Crashlytics.Instance.Initialize();
+                Fabric.Instance.Debug = true;
+                Fabric.Instance.Initialize(context);
+                FabricCrashlyticsReady = true;
             }
         }
 

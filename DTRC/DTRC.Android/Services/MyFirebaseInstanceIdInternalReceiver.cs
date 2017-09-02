@@ -20,7 +20,9 @@ namespace DTRC.Services
 
         public override void OnCreate() {
             base.OnCreate();
+            DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(this);
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+            Debug.WriteLine("DTRC servizio creato. OnCreate", TAG);
         }
 
         public override void OnTokenRefresh() {

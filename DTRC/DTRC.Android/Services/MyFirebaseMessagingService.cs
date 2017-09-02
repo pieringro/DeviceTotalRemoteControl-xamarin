@@ -15,6 +15,7 @@ namespace DTRC.Services {
         public override void OnCreate() {
             base.OnCreate();
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+            DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(this);
         }
 
         /**

@@ -27,6 +27,7 @@ namespace DTRC.Services {
             System.Diagnostics.Debug.WriteLine("StartReceiver.OnReceive called. Prepare to start firebase messaging service...");
 
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
+            DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(Application.Context);
 
             Bundle bundle = new Bundle();
             //global::Xamarin.Forms.Forms.Init(context, bundle);
