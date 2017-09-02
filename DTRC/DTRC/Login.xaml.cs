@@ -64,6 +64,7 @@ namespace DTRC {
                     Debug.WriteLine("Error, unable to clear data storage");
                 }
             }
+
             IsWaiting = false;
         }
 

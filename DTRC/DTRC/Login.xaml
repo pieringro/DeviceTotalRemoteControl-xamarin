@@ -6,30 +6,31 @@
         <ToolbarItem Text="{Binding Path=SignUp}" Clicked="OnSignUpButtonClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        
+
         <AbsoluteLayout>
-            
-            <StackLayout
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                VerticalOptions="StartAndExpand">
+            <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" 
+                         View.VerticalOptions="Center" View.HorizontalOptions="CenterAndExpand">
+                <StackLayout Margin="5,0,0,0" Orientation="Horizontal" >
+                    <Label x:Name="lblEmail" WidthRequest="70" Text="Email" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Entry x:Name="usernameEntry" Placeholder="email@dominio.com" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
+                    <Label x:Name="lblPassword" WidthRequest="70" Text="Password" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center" />
+                    <Entry x:Name="passwordEntry" IsPassword="true" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
                 
-                <Label Text="Email" />
-                <Entry x:Name="usernameEntry" Placeholder="username" />
-                <Label Text="Password" />
-                <Entry x:Name="passwordEntry" IsPassword="true" />
                 <Button Text="Login" Clicked="OnLoginButtonClicked" />
-                <Label x:Name="messageLabel" />
-                
+                <ScrollView WidthRequest="150" HeightRequest="100">
+                    <Label x:Name="messageLabel" VerticalOptions="Center" HorizontalOptions="Center" />
+                </ScrollView>
             </StackLayout>
-            
+
             <AbsoluteLayout
                 AbsoluteLayout.LayoutFlags="SizeProportional"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 BackgroundColor="White"
                 Opacity="0.5"
                 IsVisible="{Binding Path=IsWaiting}" >
-
                 <ActivityIndicator 
                     x:Name="activityIndicator"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -41,9 +42,7 @@
                     Color="Blue"
                     IsVisible="{Binding Path=IsWaiting}"
                     IsRunning="{Binding Path=IsWaiting}" />
-
             </AbsoluteLayout>
-            
         </AbsoluteLayout>
         
     </ContentPage.Content>
