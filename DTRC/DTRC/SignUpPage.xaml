@@ -2,19 +2,49 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DTRC.SignUpPage">
+    
     <ContentPage.Content>
-        <StackLayout>
+        
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" 
+                         View.VerticalOptions="Center" View.HorizontalOptions="CenterAndExpand">
+                <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
+                    <Label x:Name="lblPicker" WidthRequest="70" Text="Lang" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Picker x:Name="langPicker" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                <StackLayout Margin="5,0,0,0" Orientation="Horizontal" >
+                    <Label x:Name="lblEmail" WidthRequest="70" Text="Email" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Entry x:Name="emailEntry" Placeholder="email@dominio.com" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
+                    <Label x:Name="lblPassword" WidthRequest="70" Text="Password" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center" />
+                    <Entry x:Name="passwordEntry" IsPassword="true" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                
+                <Button Text="Sign Up" Clicked="OnSignUpButtonClicked" />
+                <ScrollView WidthRequest="150" HeightRequest="100">
+                    <Label x:Name="messageLabel" VerticalOptions="Center" HorizontalOptions="Center" />
+                </ScrollView>
+            </StackLayout>
 
-            <Picker x:Name="langPicker" 
-                    HorizontalOptions="FillAndExpand"/>
-
-            <Label Text="Email" />
-            <Entry x:Name="emailEntry" Placeholder="email@dominio.com" />
-            <Label Text="Password" />
-            <Entry x:Name="passwordEntry" IsPassword="true" />
-
-            <Button Text="Sign Up" Clicked="OnSignUpButtonClicked" />
-            <Label x:Name="messageLabel" />
-        </StackLayout>
+            <AbsoluteLayout
+                AbsoluteLayout.LayoutFlags="SizeProportional"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                BackgroundColor="White"
+                Opacity="0.5"
+                IsVisible="{Binding Path=IsWaiting}" >
+                <ActivityIndicator 
+                    x:Name="activityIndicator"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                    WidthRequest="200"
+                    HeightRequest="200"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Color="Blue"
+                    IsVisible="{Binding Path=IsWaiting}"
+                    IsRunning="{Binding Path=IsWaiting}" />
+            </AbsoluteLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
