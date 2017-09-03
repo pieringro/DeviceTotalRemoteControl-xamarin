@@ -41,15 +41,14 @@ namespace DTRC.Services {
                 remoteCommandId = remoteMessage.GetNotification().Body;
             }
             else if(remoteMessage.Data != null) {
-                Debug.WriteLine("Data Message: Keys: " + remoteMessage.Data.Keys + ";   "+
-                    "Values: "+remoteMessage.Data.Values, 
-                    TAG);
+                Debug.WriteLine("Data Message received. Dictionary {" + string.Join(";", remoteMessage.Data) + "}", TAG);
                 if (remoteMessage.Data.ContainsKey("CommandId")) {
                     remoteCommandId = remoteMessage.Data["CommandId"];
                 }
                 commandParams = remoteMessage.Data;
             }
 
+            Debug.WriteLine(string.Format("Executing command {0}", remoteCommandId), TAG);
             bool commandResult = true;
             if (commandParams != null && commandParams.Count > 0) {
                 commandResult = CommandDispatcher.getInstance().ExecuteCommandWithParams(remoteCommandId, commandParams);
