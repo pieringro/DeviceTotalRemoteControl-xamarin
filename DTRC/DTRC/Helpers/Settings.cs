@@ -11,7 +11,7 @@ namespace DTRC.Helpers
 	/// </summary>
 	public static class Settings
 	{
-		private static ISettings AppSettings
+		public static ISettings AppSettings
 		{
 			get
 			{
@@ -21,23 +21,52 @@ namespace DTRC.Helpers
 
 		#region Setting Constants
 
-		private const string SettingsKey = "settings_key";
-		private static readonly string SettingsDefault = string.Empty;
+        public const string RecordAudioKey = "RECORD_AUDIO";
+        private static readonly bool RecordAudioDefault = true;
 
-		#endregion
+        public const string TakePictureKey = "TAKE_PICTURE";
+        private static readonly bool TakePictureDefault = true;
 
+        public const string PlayBeepKey = "PLAY_BEEP";
+        private static readonly bool PlayBeepDefault = true;
 
-		public static string GeneralSettings
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(SettingsKey, SettingsDefault);
-			}
-			set
-			{
-				AppSettings.AddOrUpdateValue(SettingsKey, value);
-			}
-		}
+        #endregion
 
-	}
+        /// <summary>
+        /// Check if commandId is enabled
+        /// </summary>
+        /// <param name="commandId"></param>
+        /// <returns></returns>
+        public static bool CommandKeyEnabled(string commandId) {
+            return AppSettings.GetValueOrDefault(commandId, true);
+        }
+        
+        public static bool RecordAudioEnabled {
+            get {
+                return AppSettings.GetValueOrDefault(RecordAudioKey, RecordAudioDefault);
+            }
+            set {
+                AppSettings.AddOrUpdateValue(RecordAudioKey, value);
+            }
+        }
+
+        public static bool TakePictureEnabled {
+            get {
+                return AppSettings.GetValueOrDefault(TakePictureKey, TakePictureDefault);
+            }
+            set {
+                AppSettings.AddOrUpdateValue(TakePictureKey, value);
+            }
+        }
+
+        public static bool PlayBeepEnabled {
+            get {
+                return AppSettings.GetValueOrDefault(PlayBeepKey, PlayBeepDefault);
+            }
+            set {
+                AppSettings.AddOrUpdateValue(PlayBeepKey, value);
+            }
+        }
+        
+    }
 }

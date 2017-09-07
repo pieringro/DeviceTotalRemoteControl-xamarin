@@ -16,7 +16,8 @@ namespace DTRC.Services.Commands {
 
         public static new string Id {
             get {
-                return "TAKE_PICTURE";
+                return DTRC.Helpers.Settings.TakePictureKey;
+                //return "TAKE_PICTURE";
             }
         }
 

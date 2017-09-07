@@ -55,7 +55,7 @@ namespace DTRC.Services.Commands
             if (matchingCommands.ContainsKey(commandId)) {
                 ACommand commandToBeExecute = matchingCommands[commandId];
                 //before execute command, check if it is enable by settings
-                bool commandEnable = AppSettings.GetValueOrDefault(commandId, true);
+                bool commandEnable = DTRC.Helpers.Settings.CommandKeyEnabled(commandId);
                 if (commandEnable) {
                     result = commandToBeExecute.Execute();
                 }
@@ -72,7 +72,7 @@ namespace DTRC.Services.Commands
                 ACommand commandToBeExecute = matchingCommands[commandId];
                 commandToBeExecute.SetData(commandParams);
                 //before execute command, check if it is enable by settings
-                bool commandEnable = AppSettings.GetValueOrDefault(commandId, true);
+                bool commandEnable = DTRC.Helpers.Settings.CommandKeyEnabled(commandId);
                 if (commandEnable) {
                     result = commandToBeExecute.Execute();
                 }

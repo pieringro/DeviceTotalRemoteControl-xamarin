@@ -8,7 +8,8 @@ namespace DTRC.Services.Commands
 
         public static new string Id {
             get {
-                return "PLAY_BEEP";
+                return DTRC.Helpers.Settings.PlayBeepKey;
+                //return "PLAY_BEEP";
             }
         }
     }
