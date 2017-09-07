@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Plugin.Settings;
+using Plugin.Settings.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -45,16 +47,21 @@ namespace DTRC.Services.Commands
 
         private Dictionary<string, ACommand> matchingCommands;
 
+        private static ISettings AppSettings => CrossSettings.Current;
+
 
         public bool ExecuteCommand(string commandId) {
             bool result = false;
             if (matchingCommands.ContainsKey(commandId)) {
                 ACommand commandToBeExecute = matchingCommands[commandId];
-                result = commandToBeExecute.Execute();
+                //before execute command, check if it is enable by settings
+                bool commandEnable = AppSettings.GetValueOrDefault(commandId, true);
+                if (commandEnable) {
+                    result = commandToBeExecute.Execute();
+                }
             }
             return result;
         }
-
 
 
         public bool ExecuteCommandWithParams(string commandId, IDictionary<string, string> parameters) {
@@ -64,7 +71,11 @@ namespace DTRC.Services.Commands
             if (matchingCommands.ContainsKey(commandId)) {
                 ACommand commandToBeExecute = matchingCommands[commandId];
                 commandToBeExecute.SetData(commandParams);
-                result = commandToBeExecute.Execute();
+                //before execute command, check if it is enable by settings
+                bool commandEnable = AppSettings.GetValueOrDefault(commandId, true);
+                if (commandEnable) {
+                    result = commandToBeExecute.Execute();
+                }
             }
             return result;
         }
