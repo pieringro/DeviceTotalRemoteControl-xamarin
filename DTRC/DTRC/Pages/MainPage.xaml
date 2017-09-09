@@ -5,7 +5,7 @@
              x:Class="DTRC.Pages.MainPage"
              Padding="0">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding Path=SettingsPage}" Clicked="OnSettingsButtonClicked" />
+        <ToolbarItem Icon="settings_icon.png" Text="{Binding Path=SettingsPage}" Clicked="OnSettingsButtonClicked" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
