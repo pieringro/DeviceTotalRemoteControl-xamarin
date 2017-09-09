@@ -1,27 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DTRC.SignUpPage">
-    
+             x:Class="DTRC.Pages.Login">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding Path=SignUp}" Clicked="OnSignUpButtonClicked" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        
+
         <AbsoluteLayout>
             <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" 
                          View.VerticalOptions="Center" View.HorizontalOptions="CenterAndExpand">
-                <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
-                    <Label x:Name="lblPicker" WidthRequest="70" Text="Lang" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center"/>
-                    <Picker x:Name="langPicker" HorizontalOptions="FillAndExpand"/>
-                </StackLayout>
                 <StackLayout Margin="5,0,0,0" Orientation="Horizontal" >
                     <Label x:Name="lblEmail" WidthRequest="70" Text="Email" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center"/>
-                    <Entry x:Name="emailEntry" Placeholder="email@dominio.com" HorizontalOptions="FillAndExpand" />
+                    <Entry x:Name="usernameEntry" Placeholder="email@dominio.com" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
                 <StackLayout Margin="5,0,0,0" Orientation="Horizontal">
                     <Label x:Name="lblPassword" WidthRequest="70" Text="Password" FontSize="Default" FontAttributes="Bold" VerticalOptions="Center" />
                     <Entry x:Name="passwordEntry" IsPassword="true" HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
                 
-                <Button Text="Sign Up" Clicked="OnSignUpButtonClicked" />
+                <Button Text="Login" Clicked="OnLoginButtonClicked" />
                 <ScrollView WidthRequest="150" HeightRequest="100">
                     <Label x:Name="messageLabel" VerticalOptions="Center" HorizontalOptions="Center" />
                 </ScrollView>
@@ -46,5 +44,6 @@
                     IsRunning="{Binding Path=IsWaiting}" />
             </AbsoluteLayout>
         </AbsoluteLayout>
+        
     </ContentPage.Content>
 </ContentPage>

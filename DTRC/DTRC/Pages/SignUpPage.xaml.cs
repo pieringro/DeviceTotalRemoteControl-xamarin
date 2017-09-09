@@ -1,44 +1,45 @@
 ﻿using DTRC.Data;
-using PCLAppConfig;
-using PCLAppConfig.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DTRC {
+namespace DTRC.Pages {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Login : ContentPage , INotifyPropertyChanged {
-        public Login() {
+    public partial class SignUpPage : ContentPage, INotifyPropertyChanged {
+        public SignUpPage() {
             InitializeComponent();
             IsWaiting = false;
             BindingContext = this;
+
+            if (this.langPicker.Items.Count == 0) {
+                foreach (string lang in LangEntity.allLang) {
+                    this.langPicker.Items.Add(lang);
+                }
+                langPicker.SelectedIndex = 0;
+            }
         }
 
         async void OnSignUpButtonClicked(object sender, EventArgs e) {
-            await Navigation.PushAsync(new SignUpPage());
-        }
-
-        async void OnLoginButtonClicked(object sender, EventArgs e) {
             IsWaiting = true;
 
             UserEntity user = new UserEntity {
-                Email = usernameEntry.Text,
-                Pass = passwordEntry.Text
+                Email = emailEntry.Text,
+                Pass = passwordEntry.Text,
+                Lang = (string)langPicker.SelectedItem
             };
-            
-            bool loginResult = await user.LoginAsync();
 
-            if (loginResult) {
+            bool signupResult = await user.SignUpAsync();
+
+            if(signupResult){
                 App.IsUserLoggedIn = true;
                 App.config.SetEmailUser(user.Email);
                 App.config.SetPassUser(user.Pass);
+                App.config.SetLangUser((string)langPicker.SelectedItem);
 
                 DeviceEntity device = new DeviceEntity {
                     DeviceId = App.config.GetDeviceId(),
@@ -47,22 +48,18 @@ namespace DTRC {
                 };
 
                 bool newDeviceResult = await device.NewDeviceOrUpdateTokenIfExistsAsync();
+
                 if (!newDeviceResult) {
                     await DisplayAlert("Error",
                         string.Format("", device.LastErrorMessage), "OK");
                 }
                 else {
-                    Navigation.InsertPageBefore(new MainPage(), this);
-                    await Navigation.PopAsync();
+                    Application.Current.MainPage = new MainPage();
+                    await Navigation.PopToRootAsync();
                 }
             }
-            else {
-                messageLabel.Text = string.Format("Login failed. Message={0}", user.LastErrorMessage);
-                passwordEntry.Text = string.Empty;
-                bool clearDataStoredResult = App.config.ClearDataStored();
-                if (!clearDataStoredResult) {
-                    Debug.WriteLine("Error, unable to clear data storage");
-                }
+            else{
+                messageLabel.Text = string.Format("Sign Up failed. Message={0}", user.LastErrorMessage);
             }
 
             IsWaiting = false;
@@ -81,13 +78,6 @@ namespace DTRC {
         }
 
         
-        public string SignUp {
-            get {
-                return Application.Current.Resources["sign_up"].ToString();
-            }
-        }
-        
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void RaisePropertyChanged(string propName) {
@@ -95,6 +85,7 @@ namespace DTRC {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-        
+
+
     }
 }

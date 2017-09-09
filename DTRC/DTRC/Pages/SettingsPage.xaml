@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DTRC.Pages.SettingsPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout x:Name="rootStk" Margin="5" Orientation="Vertical">
+
+                <StackLayout Orientation="Horizontal" Margin="10" HorizontalOptions="Center">
+                    <Label Text="{Binding Path=EnableDisableCommands}" FontSize="Large" VerticalOptions="Center" HorizontalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Margin="10" HorizontalOptions="FillAndExpand">
+                    <Label Text="{Binding Path=AllCommands}" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Switch IsToggled="{Binding Path=AllCommandsEnabled, Mode=TwoWay}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Margin="10" HorizontalOptions="FillAndExpand">
+                    <Label Text="{Binding Path=PlayBeepCommand}" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Switch IsToggled="{Binding Path=PlayBeepCommandEnabled, Mode=TwoWay}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Margin="10" HorizontalOptions="FillAndExpand">
+                    <Label Text="{Binding Path=RecordAudioCommand}" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Switch IsToggled="{Binding Path=RecordAudioCommandEnabled, Mode=TwoWay}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Margin="10" HorizontalOptions="FillAndExpand">
+                    <Label Text="{Binding Path=TakePictureCommand}" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <Switch IsToggled="{Binding Path=TakePictureCommandEnabled, Mode=TwoWay}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

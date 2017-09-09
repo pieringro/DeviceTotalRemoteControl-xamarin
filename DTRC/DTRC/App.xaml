@@ -21,7 +21,30 @@
             <x:String x:Key="sign_up">
                 Registrati
             </x:String>
-            
+
+            <x:String x:Key="settings_page">
+                Impostazioni
+            </x:String>
+
+            <x:String x:Key="enable_disable_commands">
+                Abilita/Disabilita ricezione comandi
+            </x:String>
+
+            <x:String x:Key="all_commands">
+                Tutti i comandi
+            </x:String>
+
+            <x:String x:Key="play_beep_command">
+                Comando Suona Beep
+            </x:String>
+
+            <x:String x:Key="record_audio_command">
+                Comando Registra audio
+            </x:String>
+
+            <x:String x:Key="take_picture_command">
+                Comando Scatta foto
+            </x:String>
         </ResourceDictionary>
 
 

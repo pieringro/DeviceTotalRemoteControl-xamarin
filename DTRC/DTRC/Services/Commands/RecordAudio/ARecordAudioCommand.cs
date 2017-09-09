@@ -11,7 +11,6 @@ namespace DTRC.Services.Commands {
         public static new string Id {
             get {
                 return DTRC.Helpers.Settings.RecordAudioKey;
-                //return "RECORD_AUDIO";
             }
         }
     }

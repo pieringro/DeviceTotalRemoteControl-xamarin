@@ -10,7 +10,7 @@ using DTRC.Services.Commands;
 using PCLStorage;
 using DTRC.Services;
 
-namespace DTRC {
+namespace DTRC.Pages {
     public partial class MainPage : ContentPage {
 
         private SystemConfig config;
@@ -30,7 +30,20 @@ namespace DTRC {
             }
             #endregion
         }
-        
+
+
+        async void OnSettingsButtonClicked(object sender, EventArgs e) {
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
+
+        public string SettingsPage {
+            get {
+                return Application.Current.Resources["settings_page"].ToString();
+            }
+        }
+
+
         public string WelcomeServiceReady {
             get {
                 return Application.Current.Resources["welcome_service_ready"].ToString();

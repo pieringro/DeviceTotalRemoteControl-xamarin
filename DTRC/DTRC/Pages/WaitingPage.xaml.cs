@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DTRC {
+namespace DTRC.Pages {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WaitingPage : ContentPage {
         public WaitingPage() {

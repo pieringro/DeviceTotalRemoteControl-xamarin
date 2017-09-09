@@ -43,11 +43,14 @@
     <Compile Include="Data\LangEntity.cs" />
     <Compile Include="Data\UserEntity.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="Login.xaml.cs">
+    <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ServerConfig.cs" />
@@ -62,17 +65,17 @@
     <Compile Include="Services\Commands\RecordAudio\ARecordAudioCommand.cs" />
     <Compile Include="Services\Commands\TakePicture\ATakePictureCommand.cs" />
     <Compile Include="Services\Commands\TakePicture\WriteAndSendPicture.cs" />
-    <Compile Include="SignUpPage.xaml.cs">
+    <Compile Include="Pages\SignUpPage.xaml.cs">
       <DependentUpon>SignUpPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\StorageUtility.cs" />
     <Compile Include="Services\SystemConfig.cs" />
-    <Compile Include="WaitingPage.xaml.cs">
+    <Compile Include="Pages\WaitingPage.xaml.cs">
       <DependentUpon>WaitingPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainPage.xaml">
+    <EmbeddedResource Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -211,21 +214,28 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
+    <Folder Include="Pages\Converter\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Login.xaml">
+    <EmbeddedResource Include="Pages\Login.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SignUpPage.xaml">
+    <EmbeddedResource Include="Pages\SignUpPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WaitingPage.xaml">
+    <EmbeddedResource Include="Pages\WaitingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

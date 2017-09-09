@@ -1,5 +1,6 @@
 ﻿using DTRC.Data;
 using DTRC.Services;
+using DTRC.Pages;
 using PCLAppConfig;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace DTRC {
 
                 bool updateTokenResult = await device.UpdateTokenAsync();
                 if (updateTokenResult) {
-                    MainPage = new MainPage();
+                    MainPage = new NavigationPage(new MainPage());
                 }
                 else {
                     //update token fallito, provo con nuovo device
