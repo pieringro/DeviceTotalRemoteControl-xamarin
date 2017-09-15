@@ -41,6 +41,7 @@ namespace DTRC.Droid {
                 ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
             } catch (TypeInitializationException e) {
                 System.Diagnostics.Debug.WriteLine("ConfigurationManager exception: "+e.StackTrace);
+                CrashlyticsKit.Crashlytics.Instance.RecordException(e);
             }
 
             LoadApplication(new App());

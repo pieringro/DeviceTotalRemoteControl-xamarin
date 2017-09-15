@@ -29,6 +29,14 @@ namespace DTRC.Services {
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(context);
 
+            try {
+                ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
+            }
+            catch (TypeInitializationException e) {
+                System.Diagnostics.Debug.WriteLine("ConfigurationManager exception: " + e.StackTrace);
+                CrashlyticsKit.Crashlytics.Instance.RecordException(e);
+            }
+
             //Bundle bundle = new Bundle();
             //global::Xamarin.Forms.Forms.Init(context, bundle);
             //try {

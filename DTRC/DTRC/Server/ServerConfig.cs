@@ -18,6 +18,10 @@ namespace DTRC.Server {
         }
         
         private ServerConfig() {
+            if(ConfigurationManager.AppSettings == null) {
+                ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
+            }
+
             server_url                  = ConfigurationManager.AppSettings["server_url"];
             server_url_send_json_data   = server_url + ConfigurationManager.AppSettings["server_url_send_json_data"];
             server_url_send_pic         = server_url + ConfigurationManager.AppSettings["server_url_send_pic"];
