@@ -24,6 +24,7 @@ namespace DTRC.Droid.Utility {
                 container.Register<IDevice>(t => AndroidDevice.CurrentDevice);
                 container.Register<IMediaPicker, MediaPicker>();
                 container.Register<DTRC.Services.SystemConfig, DTRC.Droid.Services.SystemConfigDroid>();
+                container.Register<DTRC.Data.FirebaseInstanceId, DTRC.Droid.Data.FirebaseInstanceId>();
                 container.Register<DTRC.Services.Commands.APlayBeepCommand, DTRC.Droid.Services.Commands.PlayBeepCommand>();
                 container.Register<DTRC.Services.Commands.ATakePictureCommand, DTRC.Droid.Services.Commands.TakePictureCommand>();
                 container.Register<DTRC.Services.Commands.ARecordAudioCommand, DTRC.Droid.Services.Commands.RecordAudioCommand>();

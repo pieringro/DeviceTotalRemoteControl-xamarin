@@ -28,23 +28,17 @@ namespace DTRC.Services {
 
             DTRC.Droid.Utility.IOCContainer.InitXLabResolver();
             DTRC.Droid.Utility.IOCContainer.InitFabricCrashlytics(context);
+            
 
-            try {
-                ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
-            }
-            catch (TypeInitializationException e) {
-                System.Diagnostics.Debug.WriteLine("ConfigurationManager exception: " + e.StackTrace);
-                CrashlyticsKit.Crashlytics.Instance.RecordException(e);
-            }
-
-            //Bundle bundle = new Bundle();
-            //global::Xamarin.Forms.Forms.Init(context, bundle);
+            //nulla da fare, l'inizializzazione del ConfigurationManager non ha effetto qui al boot :(
             //try {
             //    ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
             //}
             //catch (TypeInitializationException e) {
             //    System.Diagnostics.Debug.WriteLine("ConfigurationManager exception: " + e.StackTrace);
+            //    CrashlyticsKit.Crashlytics.Instance.RecordException(e);
             //}
+
             //SecureStorageImplementation.StoragePassword = SystemConfig.STORAGE_PASSWORD;
 
             //avvio servizio firebase recupero token
