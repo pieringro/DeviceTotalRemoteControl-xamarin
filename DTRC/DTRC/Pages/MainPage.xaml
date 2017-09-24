@@ -18,12 +18,13 @@
             VerticalOptions="CenterAndExpand">
 
                 <Label
-                Text="{Binding Path=WelcomeUsername}"
-                HorizontalOptions="Center"/>
+                    Text="{Binding Path=WelcomeUsername}"
+                    HorizontalOptions="Center"/>
 
                 <Label 
-                Text="{Binding Path=WelcomeServiceReady}" 
-                HorizontalOptions="Center" />
+                    Text="{Binding Path=WelcomeServiceReady}" 
+                    HorizontalOptions="Center"
+                    XAlign="Center"/>
 
             </StackLayout>
 
