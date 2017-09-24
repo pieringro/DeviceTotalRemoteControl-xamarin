@@ -33,10 +33,7 @@ namespace DTRC.Pages {
 
 
         async void OnSettingsButtonClicked(object sender, EventArgs e) {
-            //TODO alert con password prima
-
-            await Navigation.PushAsync(new SettingsPage());
-
+            await ((App)App.Current).OpenSettingsPage(this);
         }
 
 

@@ -45,6 +45,15 @@
             <x:String x:Key="take_picture_command">
                 Comando Scatta foto
             </x:String>
+
+            <x:String x:Key="cancel">
+                Annulla
+            </x:String>
+
+            <x:String x:Key="unlock">
+                Sblocca
+            </x:String>
+            
         </ResourceDictionary>
 
 

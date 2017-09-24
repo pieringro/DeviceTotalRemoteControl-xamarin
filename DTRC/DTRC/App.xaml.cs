@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using CrashlyticsKit;
 using Xamarin.Forms;
+using System.Threading.Tasks;
+using DTRC.Utility;
 
 namespace DTRC {
     public partial class App : Application {
@@ -99,8 +101,20 @@ namespace DTRC {
             }
         }
 
+        private XLabs.Forms.Controls.PopupLayout popupLayout = null;
+        private StackLayout rootLayout = null;
+        public async Task OpenSettingsPage(ContentPage pageCaller) {
 
-        
+            if (popupLayout == null) {
+                FrontEndElements.BuildSettingsPasswordPopup(ref popupLayout, ref rootLayout, pageCaller);
+            }
+            else {
+                popupLayout.DismissPopup();
+            }
+            
+            popupLayout.ShowPopup(rootLayout);
+        }
+
 
         protected override void OnStart() {
             //Crashlytics.Instance.Crash();

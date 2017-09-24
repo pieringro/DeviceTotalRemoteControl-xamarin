@@ -68,6 +68,7 @@
     <Compile Include="Pages\SignUpPage.xaml.cs">
       <DependentUpon>SignUpPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\FrontEndElements.cs" />
     <Compile Include="Utility\StorageUtility.cs" />
     <Compile Include="Services\SystemConfig.cs" />
     <Compile Include="Pages\WaitingPage.xaml.cs">
