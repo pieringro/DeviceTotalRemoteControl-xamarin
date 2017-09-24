@@ -103,7 +103,7 @@ namespace DTRC {
 
         private XLabs.Forms.Controls.PopupLayout popupLayout = null;
         private StackLayout rootLayout = null;
-        public async Task OpenSettingsPage(ContentPage pageCaller) {
+        public void OpenSettingsPage(ContentPage pageCaller) {
 
             if (popupLayout == null) {
                 FrontEndElements.BuildSettingsPasswordPopup(ref popupLayout, ref rootLayout, pageCaller);

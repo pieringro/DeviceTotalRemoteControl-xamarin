@@ -32,8 +32,8 @@ namespace DTRC.Pages {
         }
 
 
-        async void OnSettingsButtonClicked(object sender, EventArgs e) {
-            await ((App)App.Current).OpenSettingsPage(this);
+        void OnSettingsButtonClicked(object sender, EventArgs e) {
+            ((App)App.Current).OpenSettingsPage(this);
         }
 
 
