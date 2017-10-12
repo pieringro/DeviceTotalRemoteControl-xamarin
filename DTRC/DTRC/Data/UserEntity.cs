@@ -40,7 +40,7 @@ namespace DTRC.Data {
                     loginResult = true;
                 }
                 else {
-                    Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
+                    Debug.WriteLine(string.Format("Il server ha restituito un errore durante la login. Messaggio : {0}",
                             response.Message));
                     loginResult = false;
                 }
@@ -87,7 +87,7 @@ namespace DTRC.Data {
                     signupResult = true;
                 }
                 else {
-                    Debug.WriteLine(string.Format("Il server ha restituito un errore. Messaggio : {0}",
+                    Debug.WriteLine(string.Format("Il server ha restituito un errore durante la registrazione del nuovo utente. Messaggio : {0}",
                             response.Message));
                     signupResult = false;
                 }

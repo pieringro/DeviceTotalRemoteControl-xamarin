@@ -54,8 +54,8 @@ namespace DTRC.Pages {
                         string.Format("", device.LastErrorMessage), "OK");
                 }
                 else {
-                    Application.Current.MainPage = new MainPage();
-                    await Navigation.PopToRootAsync();
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                    await Navigation.PopAsync();
                 }
             }
             else{

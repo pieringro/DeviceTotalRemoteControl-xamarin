@@ -94,6 +94,11 @@ namespace DTRC {
                     if (newDeviceResult) {
                         MainPage = new NavigationPage(new Login());
                     }
+                    else {
+                        //TODO mostro un errore e vado alla login
+                        //await DisplayAlert("Error",
+                        //    string.Format("", device.LastErrorMessage), "OK");
+                    }
                 }
             }
             else {
